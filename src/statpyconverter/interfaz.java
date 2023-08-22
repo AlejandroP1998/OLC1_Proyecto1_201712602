@@ -1,14 +1,21 @@
 package statpyconverter;
 
+import Analizador.parser;
+import Analizador.scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class interfaz extends javax.swing.JFrame {
+
+    File selectedFile = null;
 
     public interfaz() {
         initComponents();
@@ -168,7 +175,7 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnalizadorActionPerformed
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
-
+        Ejecutar(textAreaEntrada.getText());
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -182,11 +189,11 @@ public class interfaz extends javax.swing.JFrame {
                 JFileChooser archivo = new JFileChooser();
                 FileNameExtensionFilter filter = new FileNameExtensionFilter("Archivos JSON y SP", "json", "sp");
                 archivo.setFileFilter(filter);
-                int returnValue = archivo.showOpenDialog(null);
+                int eleccionAbrir = archivo.showOpenDialog(null);
 
-                if (returnValue == JFileChooser.APPROVE_OPTION) {
-                    File selectedFile = archivo.getSelectedFile();
-                    JOptionPane.showMessageDialog(null, "Archivo seleccionado: \n" + selectedFile.getName(), "Exito", JOptionPane.INFORMATION_MESSAGE);
+                if (eleccionAbrir == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = archivo.getSelectedFile();
+                    JOptionPane.showMessageDialog(null, "Archivo seleccionado: \n" + selectedFile.getName(), "Abierto", JOptionPane.INFORMATION_MESSAGE);
                     try {
                         BufferedReader reader = new BufferedReader(new FileReader(selectedFile));
                         StringBuilder content = new StringBuilder();
@@ -206,11 +213,47 @@ public class interfaz extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "No se selecciono ningun archivo", "Alerta", JOptionPane.WARNING_MESSAGE);
                 }
                 break;
+
             case 1:
-                System.out.println("Guardar");
+                if (selectedFile != null) {
+                    try {
+                        FileWriter writer = new FileWriter(selectedFile);
+                        String contenido = textAreaEntrada.getText();
+                        writer.write(contenido);
+                        writer.close();
+                        JOptionPane.showMessageDialog(null, "Se guardo correctamente el archivo \n" + selectedFile.getName(), "Guardado", JOptionPane.INFORMATION_MESSAGE);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se logro guardar archivo", "Error al guardar", JOptionPane.WARNING_MESSAGE);
+                }
+
                 break;
+
             case 2:
-                System.out.println("Guardar como");
+                JFileChooser saveChooser = new JFileChooser();
+                int eleccionGuardar = saveChooser.showSaveDialog(null);
+                if (eleccionGuardar == JFileChooser.APPROVE_OPTION) {
+                    selectedFile = saveChooser.getSelectedFile();
+                    String fileName = selectedFile.getAbsolutePath();
+                    if (labelAnalizador.getText().equals("Analizador: StatPy")) {
+                        selectedFile = new File(fileName + ".sp");
+                    } else {
+                        selectedFile = new File(fileName + ".json");
+                    }
+                    try (FileWriter escribir = new FileWriter(selectedFile, true)) {
+                        escribir.write(textAreaEntrada.getText());
+                        escribir.close();
+                        JOptionPane.showMessageDialog(null, "Se guardo correctamente el archivo \n" + selectedFile.getName(), "Guardado", JOptionPane.INFORMATION_MESSAGE);
+
+                    } catch (IOException ex) {
+                        Logger.getLogger(interfaz.class.getName()).log(Level.SEVERE, null, ex);
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se logro guardar archivo", "Error al guardar", JOptionPane.WARNING_MESSAGE);
+                }
+
                 break;
             default:
                 break;
@@ -224,6 +267,21 @@ public class interfaz extends javax.swing.JFrame {
             }
         });
     }
+
+    private static void Ejecutar(String codigoFuente) {
+        try {
+            // realizar el analisis lexico con el scanner
+            scanner scan = new scanner(new java.io.StringReader(codigoFuente));
+            //  sintactico con el parser
+            parser parser = new parser(scan);
+            parser.parse();
+            System.out.println("Analisis realizado correctamente");
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;

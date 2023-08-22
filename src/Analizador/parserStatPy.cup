@@ -1,0 +1,61 @@
+package Analizador;
+import java_cup.runtime.*;
+
+
+//PARSER 
+parser code
+{:    
+    public void syntax_error(Symbol s){
+        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+    }
+
+:}
+
+//TERMINALES
+terminal String PTCOMA,PAR_IZQ,PAR_DER,COR_IZQ,COR_DER;
+terminal String COMI, COMF, COMS;
+terminal String MAS,MENOS,POR,DIV;
+terminal String ENTERO;
+terminal String DECIMAL;
+terminal String UMENOS;
+terminal String REVALUAR;
+
+//NO_TERMINALES
+non terminal ini;
+non terminal instrucciones;
+non terminal instruccion;
+non terminal Double expresion;
+
+//PRECEDENCIA_DE_OPERADORES
+precedence left MAS,MENOS;
+precedence left POR,DIV;
+precedence right UMENOS;
+
+start with ini;
+
+ini::=instrucciones;
+
+instrucciones ::= instruccion instrucciones
+ | instruccion
+ | COMI instrucciones COMF
+; 
+
+instruccion ::= 
+   REVALUAR COR_IZQ expresion:a COR_DER PTCOMA{:System.out.println("El valor de la expresión es: "+a);:}
+   | error PTCOMA
+;
+
+expresion  ::= 
+ MENOS expresion:a                      {:RESULT=a*-1; System.out.println("operación umenos"); :}%prec UMENOS  
+ |  expresion:a MAS        expresion:b     {:RESULT=a+b;:}
+ |  expresion:a MENOS      expresion:b     {:RESULT=a-b;:}
+ |  expresion:a POR        expresion:b     {:RESULT=a*b;:}
+ |  expresion:a DIV        expresion:b     {:RESULT=a/b;:}
+ |  ENTERO:a                               {:RESULT=new Double(a);:}
+ |  DECIMAL:a                              {:RESULT=new Double(a);:}
+ |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:}
+;

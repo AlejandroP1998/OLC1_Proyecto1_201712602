@@ -1,12 +1,15 @@
 package statpyconverter;
 
-import Analizador.parser;
-import Analizador.scanner;
+
+import AnalizadorStatPy.parser;
+import AnalizadorStatPy.scanner;
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -41,9 +44,11 @@ public class interfaz extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("StatPy Converter");
-        setPreferredSize(new java.awt.Dimension(800, 500));
+        setMinimumSize(new java.awt.Dimension(1000, 550));
+        setPreferredSize(new java.awt.Dimension(1000, 550));
 
         background.setBackground(new java.awt.Color(0, 0, 0));
+        background.setMinimumSize(new java.awt.Dimension(1000, 450));
         background.setPreferredSize(new java.awt.Dimension(800, 550));
         background.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
@@ -96,13 +101,13 @@ public class interfaz extends javax.swing.JFrame {
             .addGroup(navbarLayout.createSequentialGroup()
                 .addGap(26, 26, 26)
                 .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 34, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
                 .addComponent(btnAnalizador, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(41, 41, 41)
+                .addGap(80, 80, 80)
                 .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(37, 37, 37)
+                .addGap(60, 60, 60)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(57, 57, 57))
+                .addGap(87, 87, 87))
         );
         navbarLayout.setVerticalGroup(
             navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -116,7 +121,7 @@ public class interfaz extends javax.swing.JFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        background.add(navbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 800, 50));
+        background.add(navbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 50));
 
         labelAnalizador.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         labelAnalizador.setForeground(new java.awt.Color(255, 255, 255));
@@ -131,7 +136,7 @@ public class interfaz extends javax.swing.JFrame {
         labelSalida.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         labelSalida.setForeground(new java.awt.Color(255, 255, 255));
         labelSalida.setText("Salida:");
-        background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 110, -1, -1));
+        background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 120, -1));
 
         textAreaEntrada.setBackground(new java.awt.Color(153, 153, 153));
         textAreaEntrada.setColumns(20);
@@ -140,7 +145,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada.setRows(5);
         jScrollPane1.setViewportView(textAreaEntrada);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 340, 310));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 440, 310));
 
         textAreaSalida.setBackground(new java.awt.Color(0, 0, 0));
         textAreaSalida.setColumns(20);
@@ -149,7 +154,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaSalida.setEnabled(false);
         jScrollPane2.setViewportView(textAreaSalida);
 
-        background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(410, 140, 350, 310));
+        background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 470, 310));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -159,7 +164,7 @@ public class interfaz extends javax.swing.JFrame {
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
         );
 
         pack();
@@ -176,6 +181,19 @@ public class interfaz extends javax.swing.JFrame {
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
         Ejecutar(textAreaEntrada.getText());
+        try {
+            File archivo = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
+            Scanner scanner = new Scanner(archivo);
+            StringBuilder salida = new StringBuilder();
+            // Lee el contenido línea por línea
+            while (scanner.hasNextLine()) {
+                salida.append(scanner.nextLine()+"\n");
+            }
+            textAreaSalida.setText(salida.toString());
+            scanner.close();
+        } catch (FileNotFoundException e) {
+            System.out.println("Archivo no encontrado: " + e.getMessage());
+        }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed

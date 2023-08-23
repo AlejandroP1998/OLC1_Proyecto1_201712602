@@ -1,4 +1,4 @@
-package Analizador;
+package AnalizadorStatPy;
 
 public class Generador {
 
@@ -10,7 +10,7 @@ public class Generador {
 
         try {
 
-            String ruta = "src/Analizador/";
+            String ruta = "src/AnalizadorStatPy/";
             //ruta donde tenemos los archivos con extension .jflex y .cup
             String opcFlex[] = {ruta + "scannerStatPy.jflex", "-d", ruta};
             jflex.Main.generate(opcFlex);

@@ -41,6 +41,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         textAreaSalida = new javax.swing.JTextArea();
+        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("StatPy Converter");
@@ -156,6 +157,17 @@ public class interfaz extends javax.swing.JFrame {
 
         background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 470, 310));
 
+        btnLimpiar.setBackground(new java.awt.Color(51, 0, 0));
+        btnLimpiar.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+        background.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -189,10 +201,10 @@ public class interfaz extends javax.swing.JFrame {
             while (scanner.hasNextLine()) {
                 salida.append(scanner.nextLine()+"\n");
             }
-            textAreaSalida.setText(salida.toString());
             scanner.close();
+            textAreaSalida.setText(salida.toString());
         } catch (FileNotFoundException e) {
-            System.out.println("Archivo no encontrado: " + e.getMessage());
+            JOptionPane.showMessageDialog(null, "No se logro leer la salida", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
@@ -278,6 +290,18 @@ public class interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_comboArchivoActionPerformed
 
+    private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
+        textAreaEntrada.setText("");
+        textAreaSalida.setText("");
+        try {
+            FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
+            fileWriter.write("");
+            fileWriter.close();
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }//GEN-LAST:event_btnLimpiarActionPerformed
+
     public static void main(String args[]) {
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
@@ -305,6 +329,7 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel background;
     private javax.swing.JButton btnAnalizador;
     private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnLimpiar;
     private javax.swing.JComboBox<String> comboArchivo;
     private javax.swing.JButton jButton1;
     private javax.swing.JScrollPane jScrollPane1;

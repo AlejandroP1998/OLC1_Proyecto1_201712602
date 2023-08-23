@@ -25,7 +25,7 @@ public class Config {
         salida.append("def main():\n"
                 + "\t" + sentencesString + "\n"
                 + "if __name__ == \"__main__\":\n"
-                + "\tmain()");
+                + "\tmain()\n\n");
         escribirSalida();
     }
     
@@ -34,7 +34,6 @@ public class Config {
             FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
             fileWriter.write(salida.toString());
             fileWriter.close();
-            System.out.println("Contenido escrito en el archivo exitosamente.");
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo: " + e.getMessage());
         }

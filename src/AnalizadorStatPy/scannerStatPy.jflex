@@ -25,6 +25,8 @@ COR_DER  = "]"
 PTCOMA  = ";"
 LLI = "{"
 LLC = "}"
+COMS = "\'"
+COMD = "\""
 
 //operadores
 MAS = "+"
@@ -32,13 +34,26 @@ MENOS = "-"
 POR = "*"
 DIV = "/"
 
+//relacionales
+MAYOR = ">"
+MENOR = "<"
+MAYORI = ">="
+MENORI = "<="
+IGUAL = "="
+COMPARACION="=="
+DISTINTO = "!="
+
+//logicas
+AND = "&&"
+OR = "||"
+NOT = "!"
+
 //palabras reservadas
 varINT = "int"
 varDOUBLE = "double"
 varCHAR = "char"
 varBOOL = "bool"
 varSTRING = "string"
-VAR = ({varBOOL}|{varCHAR}|{varDOUBLE}|{varINT}|{varSTRING})
 wVoid = "void"
 wMain = "main"
 
@@ -49,21 +64,20 @@ DECIMAL = [0-9]+("."[  |0-9]+)?
 SPACE   = [\ \r\t\f\t]
 ENTER   = [\ \n]
 LETRA = [A-Za-zÑñ_ÁÉÍÓÚáéíóúÜü]
+identificador = ({LETRA}|{ENTERO})+
 
 COMENTARIO_SIMPLE = "//"+ ({SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+
 COMENTARIO_EXTENSO = "/*"+ ({ENTER}|{SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+ "*/"+
 
 %%
 
-<YYINITIAL> {LLI}                       {   return new Symbol(sym.LLI, yyline, yycolumn,yytext());       }
+<YYINITIAL> {LLI}                       {   return new Symbol(sym.LLI, yyline, yycolumn,yytext());          }
 
-<YYINITIAL> {LLC}                       {   return new Symbol(sym.LLC, yyline, yycolumn,yytext());       }
+<YYINITIAL> {LLC}                       {   return new Symbol(sym.LLC, yyline, yycolumn,yytext());          }
 
-<YYINITIAL> {wMain}                     {   return new Symbol(sym.wMain, yyline, yycolumn,yytext());       }
+<YYINITIAL> {wMain}                     {   return new Symbol(sym.wMain, yyline, yycolumn,yytext());        }
 
-<YYINITIAL> {wVoid}                     {   return new Symbol(sym.wVoid, yyline, yycolumn,yytext());       }
-
-<YYINITIAL> {VAR}                       {   return new Symbol(sym.VAR, yyline, yycolumn,yytext());       }
+<YYINITIAL> {wVoid}                     {   return new Symbol(sym.wVoid, yyline, yycolumn,yytext());        }
 
 <YYINITIAL> {varINT}                    {   return new Symbol(sym.varINT, yyline, yycolumn,yytext());       }
 
@@ -96,6 +110,32 @@ COMENTARIO_EXTENSO = "/*"+ ({ENTER}|{SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+ "*/"+
 <YYINITIAL> {ENTERO}                    {   return new Symbol(sym.ENTERO, yyline, yycolumn,yytext());       }
 
 <YYINITIAL> {DECIMAL}                   {   return new Symbol(sym.DECIMAL, yyline, yycolumn,yytext());      }
+
+<YYINITIAL> {MAYOR}                     {   return new Symbol(sym.MAYOR, yyline, yycolumn,yytext());        }
+
+<YYINITIAL> {MENOR}                     {   return new Symbol(sym.MENOR, yyline, yycolumn,yytext());        }
+
+<YYINITIAL> {MAYORI}                    {   return new Symbol(sym.MAYORI, yyline, yycolumn,yytext());       }
+
+<YYINITIAL> {MENORI}                    {   return new Symbol(sym.MENORI, yyline, yycolumn,yytext());       }
+
+<YYINITIAL> {IGUAL}                     {   return new Symbol(sym.IGUAL, yyline, yycolumn,yytext());        }
+
+<YYINITIAL> {COMPARACION}               {   return new Symbol(sym.COMPARACION, yyline, yycolumn,yytext());          }
+
+<YYINITIAL> {identificador}             {   return new Symbol(sym.identificador, yyline, yycolumn,yytext());        }
+
+<YYINITIAL> {DISTINTO}                  {   return new Symbol(sym.DISTINTO, yyline, yycolumn,yytext());             }
+
+<YYINITIAL> {AND}                       {   return new Symbol(sym.AND, yyline, yycolumn,yytext());      }
+
+<YYINITIAL> {OR}                        {   return new Symbol(sym.OR, yyline, yycolumn,yytext());       }
+
+<YYINITIAL> {NOT}                       {   return new Symbol(sym.NOT, yyline, yycolumn,yytext());      }
+
+<YYINITIAL> {COMS}                      {   return new Symbol(sym.COMS, yyline, yycolumn,yytext());     }
+
+<YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD, yyline, yycolumn,yytext());     }
 
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 

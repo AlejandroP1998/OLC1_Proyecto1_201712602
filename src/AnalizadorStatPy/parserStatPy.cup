@@ -23,21 +23,30 @@ parser code
 :}
 
 //TERMINALES
-terminal String PTCOMA,PAR_IZQ,PAR_DER,COR_IZQ,COR_DER;
+terminal String PTCOMA,PAR_IZQ,PAR_DER,COR_IZQ,COR_DER,COMS,COMD;
 terminal String MAS,MENOS,POR,DIV;
 terminal String ENTERO;
 terminal String DECIMAL;
 terminal String UMENOS;
-terminal String varINT,varDOUBLE,varCHAR,varBOOL,varSTRING,VAR;
+terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
 terminal String LLI,LLC,wVoid;
 terminal String wMain;
+terminal String MAYOR,MENOR,MAYORI,MENORI,IGUAL,COMPARACION,DISTINTO;
+terminal String AND,OR,NOT;
 
 //NO_TERMINALES
 non terminal ini;
 non terminal instrucciones;
 non terminal instruccion;
-non terminal Double expresion;
+non terminal expresion;
 non terminal main;
+non terminal declaraciones;
+non terminal declaracion;
+non terminal declaracionINT;
+non terminal declaracionDOUBLE;
+non terminal declaracionCHAR;
+non terminal declaracionBOOL;
+non terminal declaracionSTRING;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -54,21 +63,59 @@ instrucciones ::= instruccion instrucciones
 
 instruccion ::= 
     main
-   | error
 ;
 
 main ::=
-    wVoid wMain PAR_IZQ PAR_DER LLI expresion:a LLC {: RESULT=a; asignarFunciones("main",String.valueOf(a));  :}
+    wVoid wMain PAR_IZQ PAR_DER LLI declaraciones:a LLC {: RESULT=a; asignarFunciones("main",String.valueOf(a));  :}
 ;
 
+declaraciones ::= declaracion:a declaraciones:b {:RESULT=String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
+ | declaracion:a {:RESULT=a;:}
+; 
+
+declaracion ::=
+    declaracionINT:a            {:RESULT=a; System.out.println("int "+a); :}
+    | declaracionDOUBLE:a       {:RESULT=a; System.out.println("double "+a); :}
+    | declaracionCHAR:a         {:RESULT=a; System.out.println("char "+a); :}
+    | declaracionBOOL:a         {:RESULT=a; System.out.println("bool "+a); :}
+    | declaracionSTRING:a       {:RESULT=a; System.out.println("string "+a); :}
+;
+
+declaracionINT ::=
+    varINT identificador:a IGUAL expresion:b PTCOMA {:RESULT=a+"="+b;:}
+    | varINT identificador:a PTCOMA {:RESULT=a;:}
+;
+
+declaracionDOUBLE ::=
+    varDOUBLE identificador:a IGUAL expresion:b PTCOMA {:RESULT=a+"="+b;:}
+    | varDOUBLE identificador:a PTCOMA {:RESULT=a;:}
+;
+
+declaracionCHAR ::=
+    varCHAR identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+b;:}
+    | varCHAR identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+b;:}
+    | varCHAR identificador:a PTCOMA {:RESULT=a;:}
+;
+
+declaracionBOOL ::=
+    varBOOL identificador:a IGUAL expresion:b PTCOMA {:RESULT=a+"="+b;:}
+    | varBOOL identificador:a PTCOMA {:RESULT=a;:}
+;
+
+declaracionSTRING ::=
+    varSTRING identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+b;:}
+    | varSTRING identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+b;:} 
+    | varSTRING identificador:a PTCOMA {:RESULT=a;:}
+;
 
 expresion  ::= 
-    MENOS expresion:a                      {:RESULT=a*-1;:}%prec UMENOS  
- |  expresion:a MAS        expresion:b     {:RESULT=a+b;:}
- |  expresion:a MENOS      expresion:b     {:RESULT=a-b;:}
- |  expresion:a POR        expresion:b     {:RESULT=a*b;:}
- |  expresion:a DIV   expresion:b     {:RESULT=a/b;:}
- |  ENTERO:a                               {:RESULT=new Double(a);:}
- |  DECIMAL:a                              {:RESULT=new Double(a);:}
- |  PAR_IZQ expresion:a PAR_DER              {:RESULT=a;:}
+    MENOS expresion:a                      {:RESULT=(int)a*-1;:}%prec UMENOS  
+ |  expresion:a MAS        expresion:b     {:RESULT=(int)a+(int)b;:}
+ |  expresion:a MENOS      expresion:b     {:RESULT=(int)a-(int)b;:}
+ |  expresion:a POR        expresion:b     {:RESULT=(int)a*(int)b;:}
+ |  expresion:a DIV        expresion:b     {:RESULT=(int)a/(int)b;:}
+ |  ENTERO:a                               {:RESULT=Integer.parseInt(a);:}
+ |  DECIMAL:a                              {:RESULT=Double.parseDouble(a);:}
+ |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:}
+ |  identificador:a                        {:RESULT=a;:}
 ;

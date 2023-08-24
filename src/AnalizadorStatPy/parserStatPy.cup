@@ -30,7 +30,7 @@ terminal String DECIMAL;
 terminal String UMENOS;
 terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
 terminal String LLI,LLC,wVoid;
-terminal String wMain;
+terminal String wMain,wPrint;
 terminal String MAYOR,MENOR,MAYORI,MENORI,IGUAL,COMPARACION,DISTINTO;
 terminal String AND,OR,NOT;
 
@@ -47,6 +47,7 @@ non terminal declaracionDOUBLE;
 non terminal declaracionCHAR;
 non terminal declaracionBOOL;
 non terminal declaracionSTRING;
+non terminal declaracionPRINT;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -70,15 +71,16 @@ main ::=
 ;
 
 declaraciones ::= declaracion:a declaraciones:b {:RESULT=String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
- | declaracion:a {:RESULT=a;:}
+ | declaracion:a {:RESULT=String.valueOf(a);:}
 ; 
 
 declaracion ::=
-    declaracionINT:a            {:RESULT=a; System.out.println("int "+a); :}
-    | declaracionDOUBLE:a       {:RESULT=a; System.out.println("double "+a); :}
-    | declaracionCHAR:a         {:RESULT=a; System.out.println("char "+a); :}
-    | declaracionBOOL:a         {:RESULT=a; System.out.println("bool "+a); :}
-    | declaracionSTRING:a       {:RESULT=a; System.out.println("string "+a); :}
+    declaracionINT:a            {:RESULT=a;:}
+    | declaracionDOUBLE:a       {:RESULT=a;:}
+    | declaracionCHAR:a         {:RESULT=a;:}
+    | declaracionBOOL:a         {:RESULT=a;:}
+    | declaracionSTRING:a       {:RESULT=a;:}
+    | declaracionPRINT:a        {:RESULT=a;:}
 ;
 
 declaracionINT ::=
@@ -92,20 +94,30 @@ declaracionDOUBLE ::=
 ;
 
 declaracionCHAR ::=
-    varCHAR identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+b;:}
-    | varCHAR identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+b;:}
+    varCHAR identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+"\'"+b+"\'";:}
+    | varCHAR identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+"\""+b+"\"";:}
     | varCHAR identificador:a PTCOMA {:RESULT=a;:}
 ;
 
 declaracionBOOL ::=
-    varBOOL identificador:a IGUAL expresion:b PTCOMA {:RESULT=a+"="+b;:}
-    | varBOOL identificador:a PTCOMA {:RESULT=a;:}
+    varBOOL identificador:a IGUAL identificador:b PTCOMA {:
+    if(b.equals("true")){RESULT=a+"= True";
+    }else if(b.equals("false")){RESULT=a+"= False";
+    }else{RESULT=a;}
+    :}
 ;
 
+
 declaracionSTRING ::=
-    varSTRING identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+b;:}
-    | varSTRING identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+b;:} 
+    varSTRING identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+"\'"+b+"\'";:}
+    | varSTRING identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+"\""+b+"\"";:} 
     | varSTRING identificador:a PTCOMA {:RESULT=a;:}
+;
+
+declaracionPRINT ::=
+    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA {: RESULT="print("+a+")"; :}
+    | wPrint PAR_IZQ COMS expresion:a COMS MAS expresion:b PAR_DER PTCOMA {: RESULT="print("+"\'"+a+"\'"+","+b+")"; :}
+    | wPrint PAR_IZQ COMD expresion:a COMD MAS expresion:b PAR_DER PTCOMA {: RESULT="print("+"\""+a+"\""+","+b+")"; :}
 ;
 
 expresion  ::= 
@@ -116,6 +128,6 @@ expresion  ::=
  |  expresion:a DIV        expresion:b     {:RESULT=(int)a/(int)b;:}
  |  ENTERO:a                               {:RESULT=Integer.parseInt(a);:}
  |  DECIMAL:a                              {:RESULT=Double.parseDouble(a);:}
- |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:}
+ |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:} 
  |  identificador:a                        {:RESULT=a;:}
 ;

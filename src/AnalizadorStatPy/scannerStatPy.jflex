@@ -56,7 +56,7 @@ varBOOL = "bool"
 varSTRING = "string"
 wVoid = "void"
 wMain = "main"
-
+wPrint = "Console.Write"
 
 //expresiones
 ENTERO  = [0-9]+   
@@ -136,6 +136,8 @@ COMENTARIO_EXTENSO = "/*"+ ({ENTER}|{SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+ "*/"+
 <YYINITIAL> {COMS}                      {   return new Symbol(sym.COMS, yyline, yycolumn,yytext());     }
 
 <YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD, yyline, yycolumn,yytext());     }
+
+<YYINITIAL> {wPrint}                    {   return new Symbol(sym.wPrint, yyline, yycolumn,yytext());   }
 
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 

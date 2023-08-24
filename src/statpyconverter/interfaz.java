@@ -100,15 +100,15 @@ public class interfaz extends javax.swing.JFrame {
         navbarLayout.setHorizontalGroup(
             navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navbarLayout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addContainerGap()
                 .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 142, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
                 .addComponent(btnAnalizador, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(80, 80, 80)
+                .addGap(120, 120, 120)
                 .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(60, 60, 60)
+                .addGap(120, 120, 120)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(87, 87, 87))
+                .addGap(42, 42, 42))
         );
         navbarLayout.setVerticalGroup(
             navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -132,12 +132,12 @@ public class interfaz extends javax.swing.JFrame {
         labelEntrada.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         labelEntrada.setForeground(new java.awt.Color(255, 255, 255));
         labelEntrada.setText("Entrada:");
-        background.add(labelEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 110, -1, -1));
+        background.add(labelEntrada, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 110, -1, -1));
 
         labelSalida.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         labelSalida.setForeground(new java.awt.Color(255, 255, 255));
         labelSalida.setText("Salida:");
-        background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 110, 120, -1));
+        background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 90, -1));
 
         textAreaEntrada.setBackground(new java.awt.Color(153, 153, 153));
         textAreaEntrada.setColumns(20);
@@ -146,7 +146,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada.setRows(5);
         jScrollPane1.setViewportView(textAreaEntrada);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 140, 440, 310));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 550, 310));
 
         textAreaSalida.setBackground(new java.awt.Color(0, 0, 0));
         textAreaSalida.setColumns(20);
@@ -155,7 +155,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaSalida.setEnabled(false);
         jScrollPane2.setViewportView(textAreaSalida);
 
-        background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(490, 140, 470, 310));
+        background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 410, 310));
 
         btnLimpiar.setBackground(new java.awt.Color(51, 0, 0));
         btnLimpiar.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
@@ -166,7 +166,7 @@ public class interfaz extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        background.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(30, 460, -1, -1));
+        background.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 230, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);

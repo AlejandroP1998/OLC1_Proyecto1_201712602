@@ -1,6 +1,6 @@
 package AnalizadorStatPy;
 
-public class Generador {
+public class GeneradorStatPy {
 
     public static void main(String[] args) {
         compilar();

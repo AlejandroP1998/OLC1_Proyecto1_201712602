@@ -16,10 +16,6 @@ parser code
         System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
     }
 
-    public void asignarFunciones(String tipo, String sentencias){
-        cf.translateStatPy(tipo,sentencias);
-    }
-
 :}
 
 //TERMINALES
@@ -31,15 +27,14 @@ terminal String UMENOS;
 terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
 terminal String LLI,LLC,wVoid;
 terminal String wMain,wPrint;
-terminal String MAYOR,MENOR,MAYORI,MENORI,IGUAL,COMPARACION,DISTINTO;
-terminal String AND,OR,NOT;
+terminal String RELACIONES,IGUAL;
+terminal String LOGICAS;
 
 //NO_TERMINALES
 non terminal ini;
 non terminal instrucciones;
 non terminal instruccion;
 non terminal expresion;
-non terminal main;
 non terminal declaraciones;
 non terminal declaracion;
 non terminal declaracionINT;
@@ -48,6 +43,9 @@ non terminal declaracionCHAR;
 non terminal declaracionBOOL;
 non terminal declaracionSTRING;
 non terminal declaracionPRINT;
+non terminal main;
+non terminal sentenciaIF;
+non terminal sentenciaELSE;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -67,10 +65,25 @@ instruccion ::=
 ;
 
 main ::=
-    wVoid wMain PAR_IZQ PAR_DER LLI declaraciones:a LLC {: RESULT=a; asignarFunciones("main",String.valueOf(a));  :}
+    wVoid wMain PAR_IZQ PAR_DER LLI declaraciones:a LLC {: RESULT=a; cf.Escribir(String.valueOf(a));  :}
 ;
 
-declaraciones ::= declaracion:a declaraciones:b {:RESULT=String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
+sentenciaIF ::=
+    identificador:a PAR_IZQ identificador:b RELACIONES:c identificador:d PAR_DER LLI declaraciones:e LLC{:if(a.equals("if")){
+    RESULT = "if " + b + c + d + ":" + String.valueOf(e);
+    }:}
+;
+
+sentenciaELSE ::=
+    expresion:a LLI declaraciones:b LLC
+    {: if(a.equals("if else")) {
+           RESULT = "elif:\n" + String.valueOf(b);
+       }
+    :}
+;
+
+
+declaraciones ::= declaracion:a declaraciones:b {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
  | declaracion:a {:RESULT=String.valueOf(a);:}
 ; 
 
@@ -81,6 +94,8 @@ declaracion ::=
     | declaracionBOOL:a         {:RESULT=a;:}
     | declaracionSTRING:a       {:RESULT=a;:}
     | declaracionPRINT:a        {:RESULT=a;:}
+    | sentenciaIF:a             {:RESULT=a;:}
+    | sentenciaELSE:a           {:RESULT=a;:}
 ;
 
 declaracionINT ::=
@@ -102,8 +117,7 @@ declaracionCHAR ::=
 declaracionBOOL ::=
     varBOOL identificador:a IGUAL identificador:b PTCOMA {:
     if(b.equals("true")){RESULT=a+"= True";
-    }else if(b.equals("false")){RESULT=a+"= False";
-    }else{RESULT=a;}
+    }else if(b.equals("false")){RESULT=a+"= False";}
     :}
 ;
 
@@ -117,7 +131,9 @@ declaracionSTRING ::=
 declaracionPRINT ::=
     wPrint PAR_IZQ expresion:a PAR_DER PTCOMA {: RESULT="print("+a+")"; :}
     | wPrint PAR_IZQ COMS expresion:a COMS MAS expresion:b PAR_DER PTCOMA {: RESULT="print("+"\'"+a+"\'"+","+b+")"; :}
+    | wPrint PAR_IZQ COMS expresion:a COMS PAR_DER PTCOMA {: RESULT="print("+"\'"+a+"\')"; :}
     | wPrint PAR_IZQ COMD expresion:a COMD MAS expresion:b PAR_DER PTCOMA {: RESULT="print("+"\""+a+"\""+","+b+")"; :}
+    | wPrint PAR_IZQ COMD expresion:a COMD PAR_DER PTCOMA {: RESULT="print("+"\""+a+"\")"; :}
 ;
 
 expresion  ::= 
@@ -130,4 +146,5 @@ expresion  ::=
  |  DECIMAL:a                              {:RESULT=Double.parseDouble(a);:}
  |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:} 
  |  identificador:a                        {:RESULT=a;:}
+ |  identificador:a        expresion:b     {:RESULT=a+" "+b;:}
 ;

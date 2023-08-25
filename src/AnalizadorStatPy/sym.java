@@ -8,43 +8,36 @@ package AnalizadorStatPy;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int PAR_DER = 4;
-  public static final int DISTINTO = 33;
   public static final int wPrint = 26;
-  public static final int POR = 11;
-  public static final int ENTERO = 13;
-  public static final int MENORI = 30;
-  public static final int COR_DER = 6;
-  public static final int identificador = 16;
-  public static final int varCHAR = 19;
-  public static final int NOT = 36;
-  public static final int AND = 34;
-  public static final int IGUAL = 31;
-  public static final int varDOUBLE = 18;
-  public static final int OR = 35;
-  public static final int varINT = 17;
-  public static final int COMS = 7;
-  public static final int wMain = 25;
-  public static final int DIV = 12;
-  public static final int UMENOS = 15;
-  public static final int EOF = 0;
-  public static final int DECIMAL = 14;
-  public static final int COMD = 8;
-  public static final int varBOOL = 20;
-  public static final int error = 1;
-  public static final int wVoid = 24;
   public static final int MENOS = 10;
-  public static final int MENOR = 28;
-  public static final int PAR_IZQ = 3;
+  public static final int COMS = 7;
+  public static final int IGUAL = 28;
+  public static final int DECIMAL = 14;
+  public static final int varCHAR = 19;
+  public static final int LOGICAS = 29;
+  public static final int wVoid = 24;
   public static final int LLI = 22;
-  public static final int MAYOR = 27;
+  public static final int UMENOS = 15;
+  public static final int POR = 11;
+  public static final int COMD = 8;
   public static final int LLC = 23;
+  public static final int varINT = 17;
+  public static final int EOF = 0;
+  public static final int DIV = 12;
+  public static final int PAR_IZQ = 3;
+  public static final int RELACIONES = 27;
+  public static final int error = 1;
+  public static final int PAR_DER = 4;
   public static final int COR_IZQ = 5;
-  public static final int MAYORI = 29;
-  public static final int PTCOMA = 2;
-  public static final int COMPARACION = 32;
-  public static final int MAS = 9;
+  public static final int varDOUBLE = 18;
+  public static final int varBOOL = 20;
+  public static final int COR_DER = 6;
+  public static final int ENTERO = 13;
   public static final int varSTRING = 21;
+  public static final int wMain = 25;
+  public static final int MAS = 9;
+  public static final int identificador = 16;
+  public static final int PTCOMA = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
   "error",
@@ -73,16 +66,9 @@ public class sym {
   "wVoid",
   "wMain",
   "wPrint",
-  "MAYOR",
-  "MENOR",
-  "MAYORI",
-  "MENORI",
+  "RELACIONES",
   "IGUAL",
-  "COMPARACION",
-  "DISTINTO",
-  "AND",
-  "OR",
-  "NOT"
+  "LOGICAS"
   };
 }
 

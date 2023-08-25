@@ -19,7 +19,7 @@ parser code
 :}
 
 //TERMINALES
-terminal String PTCOMA,PAR_IZQ,PAR_DER,COR_IZQ,COR_DER,COMS,COMD;
+terminal String PTCOMA,PAR_IZQ,PAR_DER,COR_IZQ,COR_DER,COMS,COMD,DOSPT;
 terminal String MAS,MENOS,POR,DIV;
 terminal String ENTERO;
 terminal String DECIMAL;
@@ -29,6 +29,7 @@ terminal String LLI,LLC,wVoid;
 terminal String wMain,wPrint;
 terminal String RELACIONES,IGUAL;
 terminal String LOGICAS;
+terminal String wBreak,wCase;
 
 //NO_TERMINALES
 non terminal ini;
@@ -45,6 +46,8 @@ non terminal declaracionSTRING;
 non terminal declaracionPRINT;
 non terminal main;
 non terminal sentenciaIF;
+non terminal sentenciaSWITCH;
+non terminal CASE;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -76,6 +79,16 @@ sentenciaIF ::=
     }:} 
 ;
 
+sentenciaSWITCH ::=
+    identificador:a PAR_IZQ identificador:b PAR_DER LLI CASE:c LLC {:if(a.equals("switch")){
+    RESULT ="def switcher(case,"+b+"):\n"+"switcher={"+c+"}" ;
+    }:}
+;
+
+CASE ::=
+    wCase identificador:a DOSPT declaraciones:b PTCOMA wBreak {:RESULT=a+": "+b+",";:}
+;
+
 
 declaraciones ::= declaracion:a declaraciones:b {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
  | declaracion:a {:RESULT=String.valueOf(a);:}
@@ -89,6 +102,7 @@ declaracion ::=
     | declaracionSTRING:a       {:RESULT=a;:}
     | declaracionPRINT:a        {:RESULT=a;:}
     | sentenciaIF:a             {:RESULT=a;:}
+    | sentenciaSWITCH:a         {:RESULT=a;:}
 ;
 
 declaracionINT ::=

@@ -1,8 +1,9 @@
 package statpyconverter;
 
-
+import AnalizadorStatPy.NumeroLinea;
 import AnalizadorStatPy.parser;
 import AnalizadorStatPy.scanner;
+import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -14,14 +15,22 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 import javax.swing.filechooser.FileNameExtensionFilter;
 
 public class interfaz extends javax.swing.JFrame {
 
     File selectedFile = null;
+    NumeroLinea lineaEntrada, lineaSalida;
 
     public interfaz() {
         initComponents();
+        lineaEntrada = new NumeroLinea(textAreaEntrada);
+        lineaEntrada.setLineNumberBackgroundColor(Color.WHITE);
+        jScrollPane1.setRowHeaderView(lineaEntrada);
+        lineaSalida = new NumeroLinea(textAreaSalida);
+        lineaSalida.setLineNumberBackgroundColor(Color.WHITE);
+        jScrollPane2.setRowHeaderView(lineaSalida);
     }
 
     @SuppressWarnings("unchecked")
@@ -34,6 +43,7 @@ public class interfaz extends javax.swing.JFrame {
         btnEjecutar = new javax.swing.JButton();
         jButton1 = new javax.swing.JButton();
         comboArchivo = new javax.swing.JComboBox<>();
+        btnLimpiar = new javax.swing.JButton();
         labelAnalizador = new javax.swing.JLabel();
         labelEntrada = new javax.swing.JLabel();
         labelSalida = new javax.swing.JLabel();
@@ -41,12 +51,11 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         textAreaSalida = new javax.swing.JTextArea();
-        btnLimpiar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("StatPy Converter");
-        setMinimumSize(new java.awt.Dimension(1000, 550));
-        setPreferredSize(new java.awt.Dimension(1000, 550));
+        setMinimumSize(new java.awt.Dimension(1400, 550));
+        setPreferredSize(new java.awt.Dimension(1400, 550));
 
         background.setBackground(new java.awt.Color(0, 0, 0));
         background.setMinimumSize(new java.awt.Dimension(1000, 450));
@@ -95,6 +104,16 @@ public class interfaz extends javax.swing.JFrame {
             }
         });
 
+        btnLimpiar.setBackground(new java.awt.Color(51, 0, 0));
+        btnLimpiar.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
+        btnLimpiar.setText("Limpiar todo");
+        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnLimpiarActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
         navbar.setLayout(navbarLayout);
         navbarLayout.setHorizontalGroup(
@@ -102,11 +121,13 @@ public class interfaz extends javax.swing.JFrame {
             .addGroup(navbarLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 215, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 107, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(btnLimpiar, javax.swing.GroupLayout.PREFERRED_SIZE, 230, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 463, Short.MAX_VALUE)
                 .addComponent(btnAnalizador, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120)
+                .addGap(18, 18, 18)
                 .addComponent(btnEjecutar, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(120, 120, 120)
+                .addGap(18, 18, 18)
                 .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(42, 42, 42))
         );
@@ -118,11 +139,12 @@ public class interfaz extends javax.swing.JFrame {
                     .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnAnalizador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .addComponent(btnEjecutar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnLimpiar))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        background.add(navbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1000, 50));
+        background.add(navbar, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 1400, 50));
 
         labelAnalizador.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         labelAnalizador.setForeground(new java.awt.Color(255, 255, 255));
@@ -137,16 +159,16 @@ public class interfaz extends javax.swing.JFrame {
         labelSalida.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
         labelSalida.setForeground(new java.awt.Color(255, 255, 255));
         labelSalida.setText("Salida:");
-        background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 110, 90, -1));
+        background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 110, 90, -1));
 
-        textAreaEntrada.setBackground(new java.awt.Color(153, 153, 153));
+        textAreaEntrada.setBackground(new java.awt.Color(0, 0, 0));
         textAreaEntrada.setColumns(20);
         textAreaEntrada.setFont(new java.awt.Font("Cascadia Code", 0, 12)); // NOI18N
-        textAreaEntrada.setForeground(new java.awt.Color(0, 0, 0));
+        textAreaEntrada.setForeground(new java.awt.Color(0, 153, 0));
         textAreaEntrada.setRows(5);
         jScrollPane1.setViewportView(textAreaEntrada);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 550, 310));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 710, 360));
 
         textAreaSalida.setBackground(new java.awt.Color(0, 0, 0));
         textAreaSalida.setColumns(20);
@@ -155,28 +177,17 @@ public class interfaz extends javax.swing.JFrame {
         textAreaSalida.setEnabled(false);
         jScrollPane2.setViewportView(textAreaSalida);
 
-        background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(570, 140, 410, 310));
-
-        btnLimpiar.setBackground(new java.awt.Color(51, 0, 0));
-        btnLimpiar.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
-        btnLimpiar.setForeground(new java.awt.Color(255, 255, 255));
-        btnLimpiar.setText("Limpiar");
-        btnLimpiar.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnLimpiarActionPerformed(evt);
-            }
-        });
-        background.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 460, 230, -1));
+        background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 140, 640, 360));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 1400, Short.MAX_VALUE)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, 500, Short.MAX_VALUE)
+            .addComponent(background, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
         );
 
         pack();
@@ -199,7 +210,7 @@ public class interfaz extends javax.swing.JFrame {
             StringBuilder salida = new StringBuilder();
             // Lee el contenido línea por línea
             while (scanner.hasNextLine()) {
-                salida.append(scanner.nextLine()+"\n");
+                salida.append(scanner.nextLine() + "\n");
             }
             scanner.close();
             textAreaSalida.setText(salida.toString());
@@ -303,7 +314,7 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
     public static void main(String args[]) {
-        java.awt.EventQueue.invokeLater(new Runnable() {
+        SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 new interfaz().setVisible(true);
             }

@@ -23,16 +23,19 @@ PAR_DER = ")"
 COR_IZQ = "["
 COR_DER = "]" 
 PTCOMA  = ";"
+DOSPT   = ":"
 LLI = "{"
 LLC = "}"
 COMS = "\'"
 COMD = "\""
+SIMBOLOS = ({PAR_IZQ}|{PAR_DER}|{COR_IZQ}|{COR_DER}|{PTCOMA}|{DOSPT}|{LLI}|{LLC}|{COMS}|{COMD})
 
 //operadores
 MAS     = "+"
 MENOS   = "-"
 POR     = "*"
 DIV     = "/"
+OPERADORES = ({MAS}|{MENOS}|{POR}|{DIV})
 
 //relacionales
 MAYOR   = ">"
@@ -59,6 +62,9 @@ varSTRING   = "string"
 wVoid       = "void"
 wMain       = "main"
 wPrint      = "Console.Write"
+wCase       = "case"
+wBreak      = "break"
+RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wCase}|{wBreak})
 
 //expresiones
 ENTERO  = [0-9]+   
@@ -66,10 +72,11 @@ DECIMAL = [0-9]+("."[  |0-9]+)?
 SPACE   = [\ \r\t\f\t]
 ENTER   = [\ \n]
 LETRA   = [A-Za-zÑñ_ÁÉÍÓÚáéíóúÜü]
+EXPRESIONES = ({ENTERO}|{DECIMAL}|{SPACE}|{LETRA})
 
 identificador       = ({LETRA}|{ENTERO})+
-COMENTARIO_SIMPLE   = "//"+ ({SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+
-COMENTARIO_EXTENSO  = "/*"+ ({ENTER}|{SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+ "*/"+
+COMENTARIO_SIMPLE   = "//"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|{OPERADORES}|{LOGICAS})+ 
+COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|{OPERADORES}|{LOGICAS}|{ENTER})+ "*/"+
 
 %%
 
@@ -100,12 +107,15 @@ COMENTARIO_EXTENSO  = "/*"+ ({ENTER}|{SPACE}|{LETRA}|{ENTERO}|{DECIMAL})+ "*/"+
 <YYINITIAL> {COMS}                      {   return new Symbol(sym.COMS,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {wPrint}                    {   return new Symbol(sym.wPrint,           yyline, yycolumn,yytext()); }
+<YYINITIAL> {wBreak}                    {   return new Symbol(sym.wBreak,           yyline, yycolumn,yytext()); }
+<YYINITIAL> {wCase}                     {   return new Symbol(sym.wCase,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {DOSPT}                     {   return new Symbol(sym.DOSPT,            yyline, yycolumn,yytext()); }
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 <YYINITIAL> {ENTER}                     { /*Saltos de linea, ignorados*/      }
 <YYINITIAL> {COMENTARIO_SIMPLE}         { /*Comentario una linea, ignorados*/ }
 <YYINITIAL> {COMENTARIO_EXTENSO}        { /*Comentario multilinea, ignorados*/}
 
 <YYINITIAL> . {
-        String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline+1)+" y columna: "+(yycolumn+1);
+        String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline)+" y columna: "+(yycolumn);
         System.out.println(errLex);
 }

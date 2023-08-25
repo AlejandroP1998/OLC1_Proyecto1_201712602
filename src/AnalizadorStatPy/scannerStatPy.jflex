@@ -62,9 +62,8 @@ varSTRING   = "string"
 wVoid       = "void"
 wMain       = "main"
 wPrint      = "Console.Write"
-wCase       = "case"
 wBreak      = "break"
-RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wCase}|{wBreak})
+RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wBreak})
 
 //expresiones
 ENTERO  = [0-9]+   
@@ -107,9 +106,8 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {COMS}                      {   return new Symbol(sym.COMS,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {wPrint}                    {   return new Symbol(sym.wPrint,           yyline, yycolumn,yytext()); }
-<YYINITIAL> {wBreak}                    {   return new Symbol(sym.wBreak,           yyline, yycolumn,yytext()); }
-<YYINITIAL> {wCase}                     {   return new Symbol(sym.wCase,            yyline, yycolumn,yytext()); }
 <YYINITIAL> {DOSPT}                     {   return new Symbol(sym.DOSPT,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {wBreak}                    {   return new Symbol(sym.wBreak,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 <YYINITIAL> {ENTER}                     { /*Saltos de linea, ignorados*/      }
 <YYINITIAL> {COMENTARIO_SIMPLE}         { /*Comentario una linea, ignorados*/ }

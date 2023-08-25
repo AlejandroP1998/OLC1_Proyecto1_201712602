@@ -9,14 +9,13 @@ package AnalizadorStatPy;
 public class sym {
   /* terminals */
   public static final int wPrint = 27;
-  public static final int wCase = 32;
   public static final int MENOS = 11;
   public static final int DOSPT = 9;
   public static final int COMS = 7;
-  public static final int IGUAL = 29;
+  public static final int IGUAL = 30;
   public static final int DECIMAL = 15;
   public static final int varCHAR = 20;
-  public static final int LOGICAS = 30;
+  public static final int LOGICAS = 31;
   public static final int wVoid = 25;
   public static final int LLI = 23;
   public static final int UMENOS = 16;
@@ -27,7 +26,7 @@ public class sym {
   public static final int EOF = 0;
   public static final int DIV = 13;
   public static final int PAR_IZQ = 3;
-  public static final int RELACIONES = 28;
+  public static final int RELACIONES = 29;
   public static final int error = 1;
   public static final int PAR_DER = 4;
   public static final int COR_IZQ = 5;
@@ -36,7 +35,7 @@ public class sym {
   public static final int COR_DER = 6;
   public static final int ENTERO = 14;
   public static final int varSTRING = 22;
-  public static final int wBreak = 31;
+  public static final int wBreak = 28;
   public static final int wMain = 26;
   public static final int MAS = 10;
   public static final int identificador = 17;
@@ -70,11 +69,10 @@ public class sym {
   "wVoid",
   "wMain",
   "wPrint",
+  "wBreak",
   "RELACIONES",
   "IGUAL",
-  "LOGICAS",
-  "wBreak",
-  "wCase"
+  "LOGICAS"
   };
 }
 

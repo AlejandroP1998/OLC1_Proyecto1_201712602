@@ -26,10 +26,9 @@ terminal String DECIMAL;
 terminal String UMENOS;
 terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
 terminal String LLI,LLC,wVoid;
-terminal String wMain,wPrint;
+terminal String wMain,wPrint,wBreak;
 terminal String RELACIONES,IGUAL;
 terminal String LOGICAS;
-terminal String wBreak,wCase;
 
 //NO_TERMINALES
 non terminal ini;
@@ -48,6 +47,9 @@ non terminal main;
 non terminal sentenciaIF;
 non terminal sentenciaSWITCH;
 non terminal CASE;
+non terminal sentenciaCASE;
+non terminal funcion;
+non terminal funciones;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -67,7 +69,7 @@ instruccion ::=
 ;
 
 main ::=
-    wVoid wMain PAR_IZQ PAR_DER LLI declaraciones:a LLC {: RESULT=a; cf.Escribir(String.valueOf(a));  :}
+    wVoid wMain PAR_IZQ PAR_DER LLI funciones:a LLC {: RESULT=a; cf.Escribir(String.valueOf(a));  :}
 ;
 
 sentenciaIF ::=
@@ -79,14 +81,24 @@ sentenciaIF ::=
     }:} 
 ;
 
-sentenciaSWITCH ::=
-    identificador:a PAR_IZQ identificador:b PAR_DER LLI CASE:c LLC {:if(a.equals("switch")){
-    RESULT ="def switcher(case,"+b+"):\n"+"switcher={"+c+"}" ;
-    }:}
+CASE ::=
+    identificador:a expresion:b DOSPT declaraciones:c identificador:f PTCOMA{:
+    if(a.equals("case")){
+        RESULT=b+":"+c;
+    }
+    :}
 ;
 
-CASE ::=
-    wCase identificador:a DOSPT declaraciones:b PTCOMA wBreak {:RESULT=a+": "+b+",";:}
+sentenciaCASE::=
+    sentenciaCASE:a CASE:b          {: RESULT = "\n\t" +a + "\n\t" + String.valueOf(b); :}
+    | CASE:a                        {: RESULT = "\n\t" +a; :}
+;
+
+
+sentenciaSWITCH ::=
+    identificador:a PAR_IZQ identificador:b PAR_DER LLI sentenciaCASE:c LLC {:if(a.equals("switch")){
+    RESULT ="def switcher(case,"+b+"):\n"+"switcher={"+c+"\n}" ;
+    }:}
 ;
 
 
@@ -101,8 +113,16 @@ declaracion ::=
     | declaracionBOOL:a         {:RESULT=a;:}
     | declaracionSTRING:a       {:RESULT=a;:}
     | declaracionPRINT:a        {:RESULT=a;:}
-    | sentenciaIF:a             {:RESULT=a;:}
+;
+
+funcion ::=
+    sentenciaIF:a               {:RESULT=a;:}
     | sentenciaSWITCH:a         {:RESULT=a;:}
+;
+
+funciones ::=
+    funcion:a               {:RESULT=a;:}
+    | declaraciones:a       {:RESULT=a;:}
 ;
 
 declaracionINT ::=

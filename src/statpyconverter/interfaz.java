@@ -1,9 +1,7 @@
 package statpyconverter;
 
-import AnalizadorStatPy.NumeroLinea;
 import AnalizadorStatPy.parser;
 import AnalizadorStatPy.scanner;
-import java.awt.Color;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -21,16 +19,9 @@ import javax.swing.filechooser.FileNameExtensionFilter;
 public class interfaz extends javax.swing.JFrame {
 
     File selectedFile = null;
-    NumeroLinea lineaEntrada, lineaSalida;
 
     public interfaz() {
         initComponents();
-        lineaEntrada = new NumeroLinea(textAreaEntrada);
-        lineaEntrada.setLineNumberBackgroundColor(Color.WHITE);
-        jScrollPane1.setRowHeaderView(lineaEntrada);
-        lineaSalida = new NumeroLinea(textAreaSalida);
-        lineaSalida.setLineNumberBackgroundColor(Color.WHITE);
-        jScrollPane2.setRowHeaderView(lineaSalida);
     }
 
     @SuppressWarnings("unchecked")
@@ -54,6 +45,7 @@ public class interfaz extends javax.swing.JFrame {
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("StatPy Converter");
+        setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1400, 550));
         setPreferredSize(new java.awt.Dimension(1400, 550));
 
@@ -161,10 +153,10 @@ public class interfaz extends javax.swing.JFrame {
         labelSalida.setText("Salida:");
         background.add(labelSalida, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 110, 90, -1));
 
-        textAreaEntrada.setBackground(new java.awt.Color(0, 0, 0));
+        textAreaEntrada.setBackground(new java.awt.Color(0, 0, 51));
         textAreaEntrada.setColumns(20);
         textAreaEntrada.setFont(new java.awt.Font("Cascadia Code", 0, 12)); // NOI18N
-        textAreaEntrada.setForeground(new java.awt.Color(0, 153, 0));
+        textAreaEntrada.setForeground(new java.awt.Color(255, 255, 255));
         textAreaEntrada.setRows(5);
         jScrollPane1.setViewportView(textAreaEntrada);
 

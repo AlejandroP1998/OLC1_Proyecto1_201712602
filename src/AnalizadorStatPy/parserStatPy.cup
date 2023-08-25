@@ -45,7 +45,6 @@ non terminal declaracionSTRING;
 non terminal declaracionPRINT;
 non terminal main;
 non terminal sentenciaIF;
-non terminal sentenciaELSE;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -70,16 +69,11 @@ main ::=
 
 sentenciaIF ::=
     identificador:a PAR_IZQ identificador:b RELACIONES:c identificador:d PAR_DER LLI declaraciones:e LLC{:if(a.equals("if")){
-    RESULT = "if " + b + c + d + ":" + String.valueOf(e);
+    RESULT = "if " + b + c + d + ":\n" + String.valueOf(e);
     }:}
-;
-
-sentenciaELSE ::=
-    expresion:a LLI declaraciones:b LLC
-    {: if(a.equals("if else")) {
-           RESULT = "elif:\n" + String.valueOf(b);
-       }
-    :}
+    | identificador:a identificador:b PAR_IZQ identificador:c RELACIONES:d identificador:e PAR_DER LLI declaraciones:f LLC{:if(a.equals("else") && b.equals("if")){
+    RESULT = "elif " + c + d + e + ":\n" + String.valueOf(f);
+    }:} 
 ;
 
 
@@ -95,45 +89,44 @@ declaracion ::=
     | declaracionSTRING:a       {:RESULT=a;:}
     | declaracionPRINT:a        {:RESULT=a;:}
     | sentenciaIF:a             {:RESULT=a;:}
-    | sentenciaELSE:a           {:RESULT=a;:}
 ;
 
 declaracionINT ::=
-    varINT identificador:a IGUAL expresion:b PTCOMA {:RESULT=a+"="+b;:}
-    | varINT identificador:a PTCOMA {:RESULT=a;:}
+    varINT identificador:a IGUAL expresion:b PTCOMA {:RESULT="\n\t"+a+"="+b;:}
+    | varINT identificador:a PTCOMA {:RESULT="\n\t"+a;:}
 ;
 
 declaracionDOUBLE ::=
-    varDOUBLE identificador:a IGUAL expresion:b PTCOMA {:RESULT=a+"="+b;:}
-    | varDOUBLE identificador:a PTCOMA {:RESULT=a;:}
+    varDOUBLE identificador:a IGUAL expresion:b PTCOMA {:RESULT="\n\t"+a+"="+b;:}
+    | varDOUBLE identificador:a PTCOMA {:RESULT="\n\t"+a;:}
 ;
 
 declaracionCHAR ::=
-    varCHAR identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+"\'"+b+"\'";:}
-    | varCHAR identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+"\""+b+"\"";:}
-    | varCHAR identificador:a PTCOMA {:RESULT=a;:}
+    varCHAR identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
+    | varCHAR identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT="\n\t"+a+"="+"\""+b+"\"";:}
+    | varCHAR identificador:a PTCOMA {:RESULT="\n\t"+a;:}
 ;
 
 declaracionBOOL ::=
     varBOOL identificador:a IGUAL identificador:b PTCOMA {:
-    if(b.equals("true")){RESULT=a+"= True";
-    }else if(b.equals("false")){RESULT=a+"= False";}
+    if(b.equals("true")){RESULT="\n\t"+a+"= True";
+    }else if(b.equals("false")){RESULT="\n\t"+a+"= False";}
     :}
 ;
 
 
 declaracionSTRING ::=
-    varSTRING identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT=a+"="+"\'"+b+"\'";:}
-    | varSTRING identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT=a+"="+"\""+b+"\"";:} 
+    varSTRING identificador:a IGUAL COMS expresion:b COMS PTCOMA {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
+    | varSTRING identificador:a IGUAL COMD expresion:b COMD PTCOMA {:RESULT="\n\t"+a+"="+"\""+b+"\"";:} 
     | varSTRING identificador:a PTCOMA {:RESULT=a;:}
 ;
 
 declaracionPRINT ::=
-    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA {: RESULT="print("+a+")"; :}
-    | wPrint PAR_IZQ COMS expresion:a COMS MAS expresion:b PAR_DER PTCOMA {: RESULT="print("+"\'"+a+"\'"+","+b+")"; :}
-    | wPrint PAR_IZQ COMS expresion:a COMS PAR_DER PTCOMA {: RESULT="print("+"\'"+a+"\')"; :}
-    | wPrint PAR_IZQ COMD expresion:a COMD MAS expresion:b PAR_DER PTCOMA {: RESULT="print("+"\""+a+"\""+","+b+")"; :}
-    | wPrint PAR_IZQ COMD expresion:a COMD PAR_DER PTCOMA {: RESULT="print("+"\""+a+"\")"; :}
+    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA {: RESULT="\n\t"+"print("+a+")"; :}
+    | wPrint PAR_IZQ COMS expresion:a COMS MAS expresion:b PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\'"+a+"\'"+","+b+")"; :}
+    | wPrint PAR_IZQ COMS expresion:a COMS PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\'"+a+"\')"; :}
+    | wPrint PAR_IZQ COMD expresion:a COMD MAS expresion:b PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\""+a+"\""+","+b+")"; :}
+    | wPrint PAR_IZQ COMD expresion:a COMD PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\""+a+"\")"; :}
 ;
 
 expresion  ::= 

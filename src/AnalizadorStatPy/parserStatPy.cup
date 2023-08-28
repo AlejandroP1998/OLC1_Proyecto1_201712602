@@ -26,7 +26,7 @@ terminal String DECIMAL;
 terminal String UMENOS;
 terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
 terminal String LLI,LLC,wVoid;
-terminal String wMain,wPrint,wBreak;
+terminal String wMain,wPrint;
 terminal String RELACIONES,IGUAL;
 terminal String LOGICAS;
 
@@ -44,12 +44,13 @@ non terminal declaracionBOOL;
 non terminal declaracionSTRING;
 non terminal declaracionPRINT;
 non terminal main;
+non terminal sentencia;
+non terminal sentencias;
 non terminal sentenciaIF;
 non terminal sentenciaSWITCH;
 non terminal CASE;
 non terminal sentenciaCASE;
-non terminal funcion;
-non terminal funciones;
+non terminal eleccion;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -69,11 +70,11 @@ instruccion ::=
 ;
 
 main ::=
-    wVoid wMain PAR_IZQ PAR_DER LLI funciones:a LLC {: RESULT=a; cf.Escribir(String.valueOf(a));  :}
+    wVoid wMain PAR_IZQ PAR_DER LLI eleccion:a LLC {: RESULT=a; cf.Escribir(String.valueOf(a));  :}
 ;
 
 sentenciaIF ::=
-    identificador:a PAR_IZQ identificador:b RELACIONES:c identificador:d PAR_DER LLI declaraciones:e LLC{:if(a.equals("if")){
+    identificador:a PAR_IZQ identificador:b RELACIONES:c identificador:d PAR_DER LLI eleccion:e LLC{:if(a.equals("if")){
     RESULT = "if " + b + c + d + ":\n" + String.valueOf(e);
     }:}
     | identificador:a identificador:b PAR_IZQ identificador:c RELACIONES:d identificador:e PAR_DER LLI declaraciones:f LLC{:if(a.equals("else") && b.equals("if")){
@@ -82,22 +83,22 @@ sentenciaIF ::=
 ;
 
 CASE ::=
-    identificador:a expresion:b DOSPT declaraciones:c identificador:f PTCOMA{:
-    if(a.equals("case")){
+    identificador:a expresion:b DOSPT declaraciones:c identificador:d PTCOMA{:
+    if(a.equals("case")&&d.equals("break")){
         RESULT=b+":"+c;
     }
     :}
 ;
 
 sentenciaCASE::=
-    sentenciaCASE:a CASE:b          {: RESULT = "\n\t" +a + "\n\t" + String.valueOf(b); :}
+    sentenciaCASE:a CASE:b          {: RESULT = "\t" +a + "\n\t" + String.valueOf(b); :}
     | CASE:a                        {: RESULT = "\n\t" +a; :}
 ;
 
 
 sentenciaSWITCH ::=
     identificador:a PAR_IZQ identificador:b PAR_DER LLI sentenciaCASE:c LLC {:if(a.equals("switch")){
-    RESULT ="def switcher(case,"+b+"):\n"+"switcher={"+c+"\n}" ;
+    RESULT ="def switcher(case,"+b+"):\n\tswitcher={"+c+"\n\t}" ;
     }:}
 ;
 
@@ -115,15 +116,22 @@ declaracion ::=
     | declaracionPRINT:a        {:RESULT=a;:}
 ;
 
-funcion ::=
+sentencias ::= sentencia:a sentencias:b {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
+ | sentencia:a {:RESULT=String.valueOf(a);:}
+;
+
+sentencia::=
     sentenciaIF:a               {:RESULT=a;:}
     | sentenciaSWITCH:a         {:RESULT=a;:}
 ;
 
-funciones ::=
-    funcion:a               {:RESULT=a;:}
-    | declaraciones:a       {:RESULT=a;:}
+eleccion::=
+    declaraciones:a sentencias:b    {: RESULT = a + String.valueOf(b); :}
+    | sentencias:a declaraciones:b  {: RESULT = a + String.valueOf(b); :}
+    | declaraciones:a               {: RESULT = a; :}
+    | sentencias:a                  {: RESULT = a; :}
 ;
+
 
 declaracionINT ::=
     varINT identificador:a IGUAL expresion:b PTCOMA {:RESULT="\n\t"+a+"="+b;:}
@@ -165,12 +173,12 @@ declaracionPRINT ::=
 
 expresion  ::= 
     MENOS expresion:a                      {:RESULT=(int)a*-1;:}%prec UMENOS  
- |  expresion:a MAS        expresion:b     {:RESULT=(int)a+(int)b;:}
- |  expresion:a MENOS      expresion:b     {:RESULT=(int)a-(int)b;:}
- |  expresion:a POR        expresion:b     {:RESULT=(int)a*(int)b;:}
- |  expresion:a DIV        expresion:b     {:RESULT=(int)a/(int)b;:}
- |  ENTERO:a                               {:RESULT=Integer.parseInt(a);:}
- |  DECIMAL:a                              {:RESULT=Double.parseDouble(a);:}
+ |  expresion:a MAS        expresion:b     {:RESULT=a+"+"+b;:}
+ |  expresion:a MENOS      expresion:b     {:RESULT=a+"-"+b;:}
+ |  expresion:a POR        expresion:b     {:RESULT=a+"*"+b;:}
+ |  expresion:a DIV        expresion:b     {:RESULT=a+"/"+b;:}
+ |  ENTERO:a                               {:RESULT=a;:}
+ |  DECIMAL:a                              {:RESULT=a;:}
  |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:} 
  |  identificador:a                        {:RESULT=a;:}
  |  identificador:a        expresion:b     {:RESULT=a+" "+b;:}

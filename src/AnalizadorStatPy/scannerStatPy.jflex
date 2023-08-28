@@ -20,15 +20,13 @@ import statpyconverter.Config;
 //simbolos
 PAR_IZQ = "("
 PAR_DER = ")"
-COR_IZQ = "["
-COR_DER = "]" 
 PTCOMA  = ";"
 DOSPT   = ":"
 LLI = "{"
 LLC = "}"
 COMS = "\'"
 COMD = "\""
-SIMBOLOS = ({PAR_IZQ}|{PAR_DER}|{COR_IZQ}|{COR_DER}|{PTCOMA}|{DOSPT}|{LLI}|{LLC}|{COMS}|{COMD})
+SIMBOLOS = ({PAR_IZQ}|{PAR_DER}|{PTCOMA}|{DOSPT}|{LLI}|{LLC}|{COMS}|{COMD})
 
 //operadores
 MAS     = "+"
@@ -62,7 +60,12 @@ varSTRING   = "string"
 wVoid       = "void"
 wMain       = "main"
 wPrint      = "Console.Write"
-RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint})
+wSWITCH     = "switch"
+wCASE       = "case"
+wBREAK      = "break"
+wIF         = "if"
+wELSE       = "else"
+RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE})
 
 //expresiones
 ENTERO  = [0-9]+   
@@ -73,8 +76,8 @@ LETRA   = [A-Za-zÑñ_ÁÉÍÓÚáéíóúÜü]
 EXPRESIONES = ({ENTERO}|{DECIMAL}|{SPACE}|{LETRA})
 
 identificador       = ({LETRA}|{ENTERO})+
-COMENTARIO_SIMPLE   = "//"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|{OPERADORES}|{LOGICAS})+ 
-COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|{OPERADORES}|{LOGICAS}|{ENTER})+ "*/"+
+COMENTARIO_SIMPLE   = "//"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|{OPERADORES}|{LOGICAS}|{identificador})+ 
+COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|{OPERADORES}|{LOGICAS}|{ENTER}|{identificador})+ "*/"+
 
 %%
 
@@ -87,10 +90,13 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {varCHAR}                   {   return new Symbol(sym.varCHAR,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {varBOOL}                   {   return new Symbol(sym.varBOOL,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {varSTRING}                 {   return new Symbol(sym.varSTRING,        yyline, yycolumn,yytext()); }
+<YYINITIAL> {wIF}                       {   return new Symbol(sym.wIF,              yyline, yycolumn,yytext()); }
+<YYINITIAL> {wELSE}                     {   return new Symbol(sym.wELSE,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {wSWITCH}                   {   return new Symbol(sym.wSWITCH,          yyline, yycolumn,yytext()); }
+<YYINITIAL> {wCASE}                     {   return new Symbol(sym.wCASE,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {wBREAK}                    {   return new Symbol(sym.wBREAK,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_IZQ}                   {   return new Symbol(sym.PAR_IZQ,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_DER}                   {   return new Symbol(sym.PAR_DER,          yyline, yycolumn,yytext()); }
-<YYINITIAL> {COR_IZQ}                   {   return new Symbol(sym.COR_IZQ,          yyline, yycolumn,yytext()); }
-<YYINITIAL> {COR_DER}                   {   return new Symbol(sym.COR_DER,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PTCOMA}                    {   return new Symbol(sym.PTCOMA,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {MAS}                       {   return new Symbol(sym.MAS,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {MENOS}                     {   return new Symbol(sym.MENOS,            yyline, yycolumn,yytext()); }
@@ -98,14 +104,13 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {DIV}                       {   return new Symbol(sym.DIV,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {ENTERO}                    {   return new Symbol(sym.ENTERO,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {DECIMAL}                   {   return new Symbol(sym.DECIMAL,          yyline, yycolumn,yytext()); }
-<YYINITIAL> {identificador}             {   return new Symbol(sym.identificador,    yyline, yycolumn,yytext()); }
 <YYINITIAL> {RELACIONES}                {   return new Symbol(sym.RELACIONES,       yyline, yycolumn,yytext()); }
 <YYINITIAL> {IGUAL}                     {   return new Symbol(sym.IGUAL,            yyline, yycolumn,yytext()); }
-<YYINITIAL> {LOGICAS}                   {   return new Symbol(sym.LOGICAS,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMS}                      {   return new Symbol(sym.COMS,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {wPrint}                    {   return new Symbol(sym.wPrint,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {DOSPT}                     {   return new Symbol(sym.DOSPT,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {identificador}             {   return new Symbol(sym.identificador,    yyline, yycolumn,yytext()); }
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 <YYINITIAL> {ENTER}                     { /*Saltos de linea, ignorados*/      }
 <YYINITIAL> {COMENTARIO_SIMPLE}         { /*Comentario una linea, ignorados*/ }

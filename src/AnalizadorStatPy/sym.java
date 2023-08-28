@@ -8,36 +8,38 @@ package AnalizadorStatPy;
 /** CUP generated class containing symbol constants. */
 public class sym {
   /* terminals */
-  public static final int wPrint = 27;
-  public static final int MENOS = 11;
-  public static final int DOSPT = 9;
-  public static final int COMS = 7;
-  public static final int IGUAL = 29;
-  public static final int DECIMAL = 15;
-  public static final int varCHAR = 20;
-  public static final int LOGICAS = 30;
-  public static final int wVoid = 25;
-  public static final int LLI = 23;
-  public static final int UMENOS = 16;
-  public static final int POR = 12;
-  public static final int COMD = 8;
-  public static final int LLC = 24;
-  public static final int varINT = 18;
+  public static final int wPrint = 25;
+  public static final int MENOS = 9;
+  public static final int DOSPT = 7;
+  public static final int COMS = 5;
+  public static final int IGUAL = 32;
+  public static final int wCASE = 29;
+  public static final int wSWITCH = 28;
+  public static final int wIF = 26;
+  public static final int DECIMAL = 13;
+  public static final int varCHAR = 18;
+  public static final int wVoid = 23;
+  public static final int wBREAK = 30;
+  public static final int LLI = 21;
+  public static final int UMENOS = 14;
+  public static final int POR = 10;
+  public static final int COMD = 6;
+  public static final int LLC = 22;
+  public static final int varINT = 16;
+  public static final int wELSE = 27;
   public static final int EOF = 0;
-  public static final int DIV = 13;
+  public static final int DIV = 11;
   public static final int PAR_IZQ = 3;
-  public static final int RELACIONES = 28;
+  public static final int RELACIONES = 31;
   public static final int error = 1;
   public static final int PAR_DER = 4;
-  public static final int COR_IZQ = 5;
-  public static final int varDOUBLE = 19;
-  public static final int varBOOL = 21;
-  public static final int COR_DER = 6;
-  public static final int ENTERO = 14;
-  public static final int varSTRING = 22;
-  public static final int wMain = 26;
-  public static final int MAS = 10;
-  public static final int identificador = 17;
+  public static final int varDOUBLE = 17;
+  public static final int varBOOL = 19;
+  public static final int ENTERO = 12;
+  public static final int varSTRING = 20;
+  public static final int wMain = 24;
+  public static final int MAS = 8;
+  public static final int identificador = 15;
   public static final int PTCOMA = 2;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -45,8 +47,6 @@ public class sym {
   "PTCOMA",
   "PAR_IZQ",
   "PAR_DER",
-  "COR_IZQ",
-  "COR_DER",
   "COMS",
   "COMD",
   "DOSPT",
@@ -68,9 +68,13 @@ public class sym {
   "wVoid",
   "wMain",
   "wPrint",
+  "wIF",
+  "wELSE",
+  "wSWITCH",
+  "wCASE",
+  "wBREAK",
   "RELACIONES",
-  "IGUAL",
-  "LOGICAS"
+  "IGUAL"
   };
 }
 

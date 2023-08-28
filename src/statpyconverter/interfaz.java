@@ -47,7 +47,6 @@ public class interfaz extends javax.swing.JFrame {
         setTitle("StatPy Converter");
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         setMinimumSize(new java.awt.Dimension(1400, 550));
-        setPreferredSize(new java.awt.Dimension(1400, 550));
 
         background.setBackground(new java.awt.Color(0, 0, 0));
         background.setMinimumSize(new java.awt.Dimension(1000, 450));
@@ -158,6 +157,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada.setFont(new java.awt.Font("Cascadia Code", 0, 12)); // NOI18N
         textAreaEntrada.setForeground(new java.awt.Color(255, 255, 255));
         textAreaEntrada.setRows(5);
+        textAreaEntrada.setCaretColor(new java.awt.Color(0, 255, 0));
         jScrollPane1.setViewportView(textAreaEntrada);
 
         background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 710, 360));
@@ -206,6 +206,9 @@ public class interfaz extends javax.swing.JFrame {
             }
             scanner.close();
             textAreaSalida.setText(salida.toString());
+            if(textAreaSalida.getText().isBlank()){
+                textAreaSalida.setText("No compila");
+            }
         } catch (FileNotFoundException e) {
             JOptionPane.showMessageDialog(null, "No se logro leer la salida", "Alerta", JOptionPane.WARNING_MESSAGE);
         }

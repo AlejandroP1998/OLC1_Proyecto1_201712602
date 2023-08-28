@@ -1,28 +1,20 @@
 def main():
 	
-	
-	b=22+2*3
-	
-	
-	a=1
-	
-	var1=5+8*9/3-1
-	if b>a:
+	if b > a:
 
 	print("b mayor que a")
 	
-	elif a==b:
+	elif a == e:
 
-	print("a y b son iguales")
-	def switcher(case,valor):
-	switcher={		
-	1:
-	precio=55
-	2:
-	precio=25
-	3:
-	precio=40
+	b=0
+	
+	def switcher(case,val):
+	switcher={
+	a1:
+	f=2
 	}
+	
+	cr="charmander"
 if __name__ == "__main__":
 	main()
 

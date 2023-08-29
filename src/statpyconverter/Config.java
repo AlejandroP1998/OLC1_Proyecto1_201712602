@@ -2,7 +2,6 @@ package statpyconverter;
 
 import java.io.FileWriter;
 import java.io.IOException;
-import java.lang.invoke.SerializedLambda;
 
 public class Config {
 
@@ -13,15 +12,15 @@ public class Config {
 
 
     public void Escribir(String sentencesString) {
-        salida.append("def main():\n"+ "\t"+sentencesString+"\n"+ "if __name__ == \"__main__\":\n"+ "\tmain()\n\n");
+        salida.append("def main():\n\t").append(sentencesString).append("\nif __name__ == \"__main__\":\n\tmain()\n\n");
         escribirSalida();
     }
 
     public void escribirSalida() {
         try {
-            FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
-            fileWriter.write(salida.toString());
-            fileWriter.close();
+            try (FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py")) {
+                fileWriter.write(salida.toString());
+            }
         } catch (IOException e) {
             System.out.println("Error al escribir en el archivo: " + e.getMessage());
         }

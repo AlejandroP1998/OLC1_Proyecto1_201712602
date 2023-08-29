@@ -26,8 +26,8 @@ terminal String DECIMAL;
 terminal String UMENOS;
 terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
 terminal String LLI,LLC,wVoid;
-terminal String wMain,wPrint,wIF,wELSE,wSWITCH,wCASE,wBREAK;
-terminal String RELACIONES,IGUAL;
+terminal String wMain,wPrint,wIF,wELSE,wSWITCH,wCASE,wBREAK,wFOR,wWHILE,wDO;
+terminal String RELACIONES,IGUAL,AND,OR,NOT;
 
 //NO_TERMINALES
 non terminal ini;
@@ -47,6 +47,11 @@ non terminal sentenciaIF;
 non terminal sentenciaELSE;
 non terminal sentenciaSWITCH;
 non terminal sentenciaCASE;
+non terminal sentenciaFOR;
+non terminal sentenciaWHILE;
+non terminal sentenciaDOWHILE;
+non terminal declaracionFUNCIONES;
+non terminal CONDICIONES;
 non terminal CASE;
 non terminal CADENA;
 
@@ -54,6 +59,10 @@ non terminal CADENA;
 precedence left MAS,MENOS;
 precedence left POR,DIV;
 precedence right UMENOS;
+precedence left AND;
+precedence left OR;
+precedence right NOT;
+
 
 start with ini;
 
@@ -68,29 +77,32 @@ instruccion ::=
 ;
 
 main ::=
-    wVoid wMain PAR_IZQ PAR_DER LLI declaraciones:a LLC {:cf.Escribir(String.valueOf(a));  :}
+    wVoid wMain PAR_IZQ PAR_DER LLI declaraciones:a LLC                         {:cf.Escribir(String.valueOf(a));  :}
 ;
 
-declaraciones ::= declaracion:a declaraciones:b {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
- | declaracion:a {:RESULT=String.valueOf(a);:}
+declaraciones ::= declaracion:a declaraciones:b                                 {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
+ | declaracion:a                                                                {:RESULT=String.valueOf(a);:}
 ; 
 
 declaracion ::=
-    declaracionINT:a            {:RESULT=a;:}
-    | declaracionDOUBLE:a       {:RESULT=a;:}
-    | declaracionCHAR:a         {:RESULT=a;:}
-    | declaracionBOOL:a         {:RESULT=a;:}
-    | declaracionSTRING:a       {:RESULT=a;:}
-    | declaracionPRINT:a        {:RESULT=a;:}
-    | sentenciaIF:a             {:RESULT=a;:}
-    | sentenciaELSE:a           {:RESULT=a;:}
-    | sentenciaSWITCH:a         {:RESULT=a;:}
+    declaracionINT:a                                                            {:RESULT=a;:}
+    | declaracionDOUBLE:a                                                       {:RESULT=a;:}
+    | declaracionCHAR:a                                                         {:RESULT=a;:}
+    | declaracionBOOL:a                                                         {:RESULT=a;:}
+    | declaracionSTRING:a                                                       {:RESULT=a;:}
+    | declaracionPRINT:a                                                        {:RESULT=a;:}
+    | sentenciaIF:a                                                             {:RESULT=a;:}
+    | sentenciaELSE:a                                                           {:RESULT=a;:}
+    | sentenciaSWITCH:a                                                         {:RESULT=a;:}
+    | sentenciaFOR:a                                                            {:RESULT=a;:}
+    | sentenciaWHILE:a                                                          {:RESULT=a;:}
+    | sentenciaDOWHILE:a                                                        {:RESULT=a;:}
 ;
 
 sentenciaIF ::=
-    wIF PAR_IZQ identificador:a RELACIONES:b identificador:c PAR_DER LLI declaraciones:d LLC 
+    wIF PAR_IZQ CONDICIONES:a PAR_DER LLI declaraciones:b LLC 
     {:
-    RESULT = "if " + a+" "+b+" "+c+":\n" + String.valueOf(d);
+    RESULT = "if " + a +":\n" + String.valueOf(b);
     :}
 ;
 
@@ -102,76 +114,103 @@ sentenciaELSE ::=
 ;
 
 sentenciaSWITCH ::=
-    wSWITCH PAR_IZQ identificador:a PAR_DER LLI sentenciaCASE:b LLC {:
-    RESULT ="def switcher(case,"+a+"):\n\tswitcher={"+b+"\n\t}" ;
-    :}
+    wSWITCH PAR_IZQ identificador:a PAR_DER LLI sentenciaCASE:b LLC             {:RESULT ="def switcher(case,"+a+"):\n\tswitcher={"+b+"\n\t}" ;:}
 ;
 
 sentenciaCASE::=
-    sentenciaCASE:a CASE:b          {: RESULT = "\t" +a + "\n\t" + String.valueOf(b); :}
-    | CASE:a                        {: RESULT = "\n\t" +a; :}
+    sentenciaCASE:a CASE:b                                                      {: RESULT = "\t" +a + "\n\t" + String.valueOf(b); :}
+    | CASE:a                                                                    {: RESULT = "\n\t" +a; :}
 ;
 
 CASE ::=
-    wCASE identificador:a DOSPT declaraciones:b wBREAK PTCOMA {:
-    RESULT=a+":"+b;
+    wCASE CADENA:a DOSPT declaraciones:b wBREAK PTCOMA                          {:RESULT=a+":"+b;:}
+;
+
+sentenciaFOR::=
+    wFOR PAR_IZQ declaracion:a identificador:b RELACIONES:c CADENA:d PTCOMA identificador:f MAS MAS PAR_DER LLI declaraciones:g LLC
+    {:
+    String[] dec = String.valueOf(a).split("=");  
+                                                                                RESULT="for "+dec[0]+" in range("+dec[1]+","+d+"):"+g;
     :}
 ;
 
+sentenciaWHILE::=
+    wWHILE PAR_IZQ identificador:a RELACIONES:b CADENA:c PAR_DER LLI declaraciones:d LLC 
+                                                                                {:RESULT = "while " + a+" "+b+" "+c+":\n" + String.valueOf(d);:}
+;
 
+sentenciaDOWHILE::=
+    wDO LLI declaraciones:a LLC wWHILE PAR_IZQ identificador:b RELACIONES:c expresion:d PAR_DER PTCOMA
+                                                                                {:RESULT="while True:"+a+"\n\t"+b+"="+b+"+1\n\tif("+b+c+d+"):\nbreak";:}
+;
 
-
+declaracionFUNCIONES::=
+    wVoid identificador:a PAR_IZQ PAR_DER LLI declaraciones:b LLC {:System.out.println("funcion "+a);:}
+;
 
 declaracionINT ::=
-    varINT identificador:a IGUAL expresion:b PTCOMA {:RESULT="\n\t"+a+"="+b;:}
-    | varINT identificador:a PTCOMA {:RESULT="\n\t"+a;:}
+    varINT identificador:a IGUAL expresion:b PTCOMA                             {:RESULT="\n\t"+a+"="+b;:}
+    | varINT identificador:a PTCOMA                                             {:RESULT="\n\t"+a;:}
 ;
 
 declaracionDOUBLE ::=
-    varDOUBLE identificador:a IGUAL expresion:b PTCOMA {:RESULT="\n\t"+a+"="+b;:}
-    | varDOUBLE identificador:a PTCOMA {:RESULT="\n\t"+a;:}
+    varDOUBLE identificador:a IGUAL expresion:b PTCOMA                          {:RESULT="\n\t"+a+"="+b;:}
+    | varDOUBLE identificador:a PTCOMA                                          {:RESULT="\n\t"+a;:}
 ;
 
 declaracionCHAR ::=
-    varCHAR identificador:a IGUAL COMS identificador:b COMS PTCOMA {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
-    | varCHAR identificador:a IGUAL COMD identificador:b COMD PTCOMA {:RESULT="\n\t"+a+"="+"\""+b+"\"";:}
+    varCHAR identificador:a IGUAL COMS identificador:b COMS PTCOMA              {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
+    | varCHAR identificador:a IGUAL COMD identificador:b COMD PTCOMA            {:RESULT="\n\t"+a+"="+"\""+b+"\"";:}
     | varCHAR identificador:a PTCOMA {:RESULT="\n\t"+a;:}
 ;
 
 declaracionBOOL ::=
     varBOOL identificador:a IGUAL identificador:b PTCOMA {:
-    if(b.equals("true")){RESULT="\n\t"+a+"= True";
-    }else if(b.equals("false")){RESULT="\n\t"+a+"= False";}
+    if(b.equals("true"))
+                                                                                {RESULT="\n\t"+a+"= True";
+    }else if(b.equals("false"))
+                                                                                {RESULT="\n\t"+a+"= False";}
     :}
 ;
 
-
 declaracionSTRING ::=
-    varSTRING identificador:a IGUAL COMS CADENA:b COMS PTCOMA {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
-    | varSTRING identificador:a IGUAL COMD CADENA:b COMD PTCOMA {:RESULT="\n\t"+a+"="+"\""+b+"\"";:} 
+    varSTRING identificador:a IGUAL COMS CADENA:b COMS PTCOMA                   {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
+    | varSTRING identificador:a IGUAL COMD CADENA:b COMD PTCOMA                 {:RESULT="\n\t"+a+"="+"\""+b+"\"";:} 
     | varSTRING identificador:a PTCOMA {:RESULT=a;:}
 ;
 
 declaracionPRINT ::=
-    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA {: RESULT="\n\t"+"print("+a+")"; :}
-    | wPrint PAR_IZQ COMS CADENA:a COMS MAS identificador:b PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\'"+a+"\'"+","+b+")"; :}
-    | wPrint PAR_IZQ COMS CADENA:a COMS PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\'"+a+"\')"; :}
-    | wPrint PAR_IZQ COMD CADENA:a COMD MAS identificador:b PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\""+a+"\""+","+b+")"; :}
-    | wPrint PAR_IZQ COMD CADENA:a COMD PAR_DER PTCOMA {: RESULT="\n\t"+"print("+"\""+a+"\")"; :}
+    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA                                   {: RESULT="\n\t"+"print("+a+")"; :}
+    | wPrint PAR_IZQ COMS CADENA:a COMS MAS identificador:b PAR_DER PTCOMA      {: RESULT="\n\t"+"print("+"\'"+a+"\'"+","+b+")"; :}
+    | wPrint PAR_IZQ COMS CADENA:a COMS PAR_DER PTCOMA                          {: RESULT="\n\t"+"print("+"\'"+a+"\')"; :}
+    | wPrint PAR_IZQ COMD CADENA:a COMD MAS identificador:b PAR_DER PTCOMA      {: RESULT="\n\t"+"print("+"\""+a+"\""+","+b+")"; :}
+    | wPrint PAR_IZQ COMD CADENA:a COMD PAR_DER PTCOMA                          {: RESULT="\n\t"+"print("+"\""+a+"\")"; :}
 ;
 
 expresion  ::= 
-    MENOS expresion:a                      {:RESULT="-"+a;:}%prec UMENOS  
- |  expresion:a MAS        expresion:b     {:RESULT=a+"+"+b;:}
- |  expresion:a MENOS      expresion:b     {:RESULT=a+"-"+b;:}
- |  expresion:a POR        expresion:b     {:RESULT=a+"*"+b;:}
- |  expresion:a DIV        expresion:b     {:RESULT=a+"/"+b;:}
- |  ENTERO:a                               {:RESULT=a;:}
- |  DECIMAL:a                              {:RESULT=a;:}
- |  PAR_IZQ expresion:a PAR_DER            {:RESULT=a;:} 
+    MENOS expresion:a                                                           {:RESULT="-"+a;:}%prec UMENOS  
+ |  expresion:a MAS        expresion:b                                          {:RESULT=a+"+"+b;:}
+ |  expresion:a MENOS      expresion:b                                          {:RESULT=a+"-"+b;:}
+ |  expresion:a POR        expresion:b                                          {:RESULT=a+"*"+b;:}
+ |  expresion:a DIV        expresion:b                                          {:RESULT=a+"/"+b;:}
+ |  ENTERO:a                                                                    {:RESULT=a;:}
+ |  DECIMAL:a                                                                   {:RESULT=a;:}
+ |  PAR_IZQ expresion:a PAR_DER                                                 {:RESULT=a;:} 
 ;
 
 CADENA ::=
-    identificador:a CADENA:b               {:RESULT=a+" "+b;:}
-    | identificador:a                      {:RESULT=a;:}
+    identificador:a                                                             {:RESULT=a;:}
+    | ENTERO:a                                                                  {:RESULT=a;:}
+    | identificador:a CADENA:b                                                  {:RESULT=a+" "+b;:}
+    | ENTERO:a CADENA:b                                                         {:RESULT=a+" "+b;:}
+;
+
+CONDICIONES ::=
+    identificador:a RELACIONES:b CADENA:c                                       {:RESULT=a+" "+b+" "+c;:}
+    | identificador:a RELACIONES:b CADENA:c AND CONDICIONES:d                   {:RESULT=a+" "+b+" "+c+" and "+d;:}
+    | identificador:a RELACIONES:b CADENA:c OR CONDICIONES:d                    {:RESULT=a+" "+b+" "+c+" or "+d;:}
+    | NOT identificador:a                                                       {:RESULT="not "+a;:}
+    | NOT identificador:a RELACIONES:b CADENA:c                                 {:RESULT="not "+a+" "+b+" "+c;:}
+    | NOT identificador:a RELACIONES:b identificador:c CONDICIONES:d            {:RESULT="not "+a+" "+b+" "+c+" "+d;:}
+    | NOT identificador:a RELACIONES:b ENTERO:c CONDICIONES:d                   {:RESULT="not "+a+" "+b+" "+c+" "+d;:}
 ;

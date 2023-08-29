@@ -65,7 +65,10 @@ wCASE       = "case"
 wBREAK      = "break"
 wIF         = "if"
 wELSE       = "else"
-RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE})
+wFOR        = "for"
+wWHILE      = "while"
+wDO         = "do"
+RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE}|{wFOR}|{wWHILE}|{wDO})
 
 //expresiones
 ENTERO  = [0-9]+   
@@ -90,11 +93,15 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {varCHAR}                   {   return new Symbol(sym.varCHAR,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {varBOOL}                   {   return new Symbol(sym.varBOOL,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {varSTRING}                 {   return new Symbol(sym.varSTRING,        yyline, yycolumn,yytext()); }
+<YYINITIAL> {wPrint}                    {   return new Symbol(sym.wPrint,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {wIF}                       {   return new Symbol(sym.wIF,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {wELSE}                     {   return new Symbol(sym.wELSE,            yyline, yycolumn,yytext()); }
 <YYINITIAL> {wSWITCH}                   {   return new Symbol(sym.wSWITCH,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {wCASE}                     {   return new Symbol(sym.wCASE,            yyline, yycolumn,yytext()); }
 <YYINITIAL> {wBREAK}                    {   return new Symbol(sym.wBREAK,           yyline, yycolumn,yytext()); }
+<YYINITIAL> {wFOR}                      {   return new Symbol(sym.wFOR,             yyline, yycolumn,yytext()); }
+<YYINITIAL> {wWHILE}                    {   return new Symbol(sym.wWHILE,           yyline, yycolumn,yytext()); }
+<YYINITIAL> {wDO}                       {   return new Symbol(sym.wDO,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_IZQ}                   {   return new Symbol(sym.PAR_IZQ,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_DER}                   {   return new Symbol(sym.PAR_DER,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PTCOMA}                    {   return new Symbol(sym.PTCOMA,           yyline, yycolumn,yytext()); }
@@ -108,8 +115,10 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {IGUAL}                     {   return new Symbol(sym.IGUAL,            yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMS}                      {   return new Symbol(sym.COMS,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD,             yyline, yycolumn,yytext()); }
-<YYINITIAL> {wPrint}                    {   return new Symbol(sym.wPrint,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {DOSPT}                     {   return new Symbol(sym.DOSPT,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {AND}                       {   return new Symbol(sym.AND,              yyline, yycolumn,yytext()); }
+<YYINITIAL> {OR}                        {   return new Symbol(sym.OR,               yyline, yycolumn,yytext()); }
+<YYINITIAL> {NOT}                       {   return new Symbol(sym.NOT,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {identificador}             {   return new Symbol(sym.identificador,    yyline, yycolumn,yytext()); }
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 <YYINITIAL> {ENTER}                     { /*Saltos de linea, ignorados*/      }

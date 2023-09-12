@@ -1,7 +1,5 @@
 package statpyconverter;
 
-import AnalizadorStatPy.parser;
-import AnalizadorStatPy.scanner;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -42,6 +40,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada = new javax.swing.JTextArea();
         jScrollPane2 = new javax.swing.JScrollPane();
         textAreaSalida = new javax.swing.JTextArea();
+        labelArchivo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("StatPy Converter");
@@ -171,6 +170,10 @@ public class interfaz extends javax.swing.JFrame {
 
         background.add(jScrollPane2, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 140, 640, 360));
 
+        labelArchivo.setFont(new java.awt.Font("Algerian", 0, 18)); // NOI18N
+        labelArchivo.setForeground(new java.awt.Color(255, 255, 255));
+        background.add(labelArchivo, new org.netbeans.lib.awtextra.AbsoluteConstraints(110, 110, 300, -1));
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -195,23 +198,45 @@ public class interfaz extends javax.swing.JFrame {
     }//GEN-LAST:event_btnAnalizadorActionPerformed
 
     private void btnEjecutarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEjecutarActionPerformed
-        Ejecutar(textAreaEntrada.getText());
-        try {
-            File archivo = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
-            Scanner scanner = new Scanner(archivo);
-            StringBuilder salida = new StringBuilder();
-            // Lee el contenido línea por línea
-            while (scanner.hasNextLine()) {
-                salida.append(scanner.nextLine() + "\n");
+
+        if (labelAnalizador.getText().equals("Analizador: StatPy")) {
+            EjecutarStatPy(textAreaEntrada.getText());
+            try {
+                File archivo = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
+                Scanner scanner = new Scanner(archivo);
+                StringBuilder salida = new StringBuilder();
+                // Lee el contenido línea por línea
+                while (scanner.hasNextLine()) {
+                    salida.append(scanner.nextLine() + "\n");
+                }
+                scanner.close();
+                textAreaSalida.setText(salida.toString());
+                if (textAreaSalida.getText().isBlank()) {
+                    textAreaSalida.setText("No compila");
+                }
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "No se logro leer la salida", "Alerta", JOptionPane.WARNING_MESSAGE);
             }
-            scanner.close();
-            textAreaSalida.setText(salida.toString());
-            if(textAreaSalida.getText().isBlank()){
-                textAreaSalida.setText("No compila");
+        } else {
+            EjecutarJSON(textAreaEntrada.getText());
+            try {
+                File archivo = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.json");
+                Scanner scanner = new Scanner(archivo);
+                StringBuilder salida = new StringBuilder();
+                // Lee el contenido línea por línea
+                while (scanner.hasNextLine()) {
+                    salida.append(scanner.nextLine() + "\n");
+                }
+                scanner.close();
+                textAreaSalida.setText(salida.toString());
+                if (textAreaSalida.getText().isBlank()) {
+                    textAreaSalida.setText("No compila");
+                }
+            } catch (FileNotFoundException e) {
+                JOptionPane.showMessageDialog(null, "No se logro leer la salida", "Alerta", JOptionPane.WARNING_MESSAGE);
             }
-        } catch (FileNotFoundException e) {
-            JOptionPane.showMessageDialog(null, "No se logro leer la salida", "Alerta", JOptionPane.WARNING_MESSAGE);
         }
+
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
@@ -240,6 +265,7 @@ public class interfaz extends javax.swing.JFrame {
                         }
 
                         reader.close();
+                        labelArchivo.setText(selectedFile.getName());
                         textAreaEntrada.setText(content.toString());
                         textAreaSalida.setText("Archivo leido con exito");
                     } catch (IOException e) {
@@ -299,8 +325,12 @@ public class interfaz extends javax.swing.JFrame {
     private void btnLimpiarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnLimpiarActionPerformed
         textAreaEntrada.setText("");
         textAreaSalida.setText("");
+        labelArchivo.setText("");
         try {
             FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.py");
+            fileWriter.write("");
+            fileWriter.close();
+            fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\salida.json");
             fileWriter.write("");
             fileWriter.close();
         } catch (IOException e) {
@@ -316,12 +346,12 @@ public class interfaz extends javax.swing.JFrame {
         });
     }
 
-    private static void Ejecutar(String codigoFuente) {
+    private static void EjecutarStatPy(String codigoFuente) {
         try {
             // realizar el analisis lexico con el scanner
-            scanner scan = new scanner(new java.io.StringReader(codigoFuente));
+            AnalizadorStatPy.scanner scan = new AnalizadorStatPy.scanner(new java.io.StringReader(codigoFuente));
             //  sintactico con el parser
-            parser parser = new parser(scan);
+            AnalizadorStatPy.parser parser = new AnalizadorStatPy.parser(scan);
             parser.parse();
             System.out.println("Analisis realizado correctamente");
         } catch (Exception ex) {
@@ -330,6 +360,19 @@ public class interfaz extends javax.swing.JFrame {
 
     }
 
+    private static void EjecutarJSON(String codigoFuente) {
+        try {
+            // realizar el analisis lexico con el scanner
+            AnalizadorJSON.scanner scan = new AnalizadorJSON.scanner(new java.io.StringReader(codigoFuente));
+            //  sintactico con el parser
+            AnalizadorJSON.parser parser = new AnalizadorJSON.parser(scan);
+            parser.parse();
+            System.out.println("Analisis realizado correctamente");
+        } catch (Exception ex) {
+            System.out.println("Error: " + ex.getMessage());
+        }
+
+    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JPanel background;
@@ -341,6 +384,7 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelAnalizador;
+    private javax.swing.JLabel labelArchivo;
     private javax.swing.JLabel labelEntrada;
     private javax.swing.JLabel labelSalida;
     private javax.swing.JPanel navbar;

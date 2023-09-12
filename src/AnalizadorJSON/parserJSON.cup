@@ -1,1 +1,61 @@
+package AnalizadorJSON;
+import java_cup.runtime.*;
+import statpyconverter.Config;
 
+//PARSER 
+parser code
+{:  
+
+    Config cf = new Config();
+
+    public void syntax_error(Symbol s){
+        System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+    }
+
+    public void unrecovered_syntax_error(Symbol s) throws java.lang.Exception{ 
+        System.out.println("Error NR de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
+    }
+
+:}
+
+//TERMINALES
+terminal String DOSPT,COMD,LLI,LLC,COMA,SIMBOLOS;
+terminal String DECIMAL, identificador;
+
+//NO_TERMINALES
+non terminal ini;
+non terminal instrucciones;
+non terminal instruccion;
+non terminal declaraciones;
+non terminal declaracion;
+non terminal CADENA;
+
+start with ini;
+
+ini::=instrucciones;
+
+instrucciones ::= instruccion instrucciones
+ | instruccion
+; 
+
+instruccion ::= 
+    LLI declaraciones:a LLC                                                     {:cf.leerJSON("{"+a+"\n}");:}
+;
+
+declaraciones ::= declaracion:a declaraciones:b                                 {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
+ | declaracion:a                                                                {:RESULT="\n\t"+String.valueOf(a);:}
+;
+
+declaracion ::=
+  COMD CADENA:a COMD DOSPT DECIMAL:b                                            {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: double";:}
+  | COMD CADENA:a COMD DOSPT DECIMAL:b COMA declaracion:c                       {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: double"+c;:}
+  | COMD CADENA:a COMD DOSPT COMD CADENA:b COMD                                 {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: string";:}
+  | COMD CADENA:a COMD DOSPT COMD CADENA:b COMD COMA declaracion:c              {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: string"+c;:}
+;
+
+CADENA ::=
+    identificador:a                                                             {:RESULT=a;:}
+    | DECIMAL:a                                                                 {:RESULT=a;:}
+    | DECIMAL:a CADENA:b                                                        {:RESULT=a+" "+b;:}
+    | identificador:a CADENA:b                                                  {:RESULT=a+" "+b;:}
+;

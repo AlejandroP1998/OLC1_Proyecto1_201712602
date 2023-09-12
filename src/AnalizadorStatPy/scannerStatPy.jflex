@@ -18,15 +18,20 @@ import statpyconverter.Config;
 
 
 //simbolos
-PAR_IZQ = "("
-PAR_DER = ")"
-PTCOMA  = ";"
-DOSPT   = ":"
-LLI = "{"
-LLC = "}"
-COMS = "\'"
-COMD = "\""
-SIMBOLOS = ({PAR_IZQ}|{PAR_DER}|{PTCOMA}|{DOSPT}|{LLI}|{LLC}|{COMS}|{COMD})
+PAR_IZQ     = "("
+PAR_DER     = ")"
+PTCOMA      = ";"
+DOSPT       = ":"
+LLI         = "{"
+LLC         = "}"
+COMS        = "\'"
+COMD        = "\""
+DOLLAR      = "$"
+COMA        = ","
+PT          = "."
+CORI        = "["
+CORD        = "]"
+SIMBOLOS = ({PAR_IZQ}|{PAR_DER}|{PTCOMA}|{DOSPT}|{LLI}|{LLC}|{COMS}|{COMD}|{DOLLAR}|{COMA}|{CORI}|{CORD}|{PT})
 
 //operadores
 MAS     = "+"
@@ -68,7 +73,12 @@ wELSE       = "else"
 wFOR        = "for"
 wWHILE      = "while"
 wDO         = "do"
-RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE}|{wFOR}|{wWHILE}|{wDO})
+wTITULO     = "Titulo"
+wEJEX       = "EjeX"
+wVALORES    = "Valores"
+wTITULOX    = "TituloX"
+wTITULOY    = "TituloY"
+RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE}|{wFOR}|{wWHILE}|{wDO}|{wTITULO}|{wEJEX}|{wVALORES}|{wTITULOX}|{wTITULOY})
 
 //expresiones
 ENTERO  = [0-9]+   
@@ -102,6 +112,11 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {wFOR}                      {   return new Symbol(sym.wFOR,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {wWHILE}                    {   return new Symbol(sym.wWHILE,           yyline, yycolumn,yytext()); }
 <YYINITIAL> {wDO}                       {   return new Symbol(sym.wDO,              yyline, yycolumn,yytext()); }
+<YYINITIAL> {wTITULO}                   {   return new Symbol(sym.wTITULO,          yyline, yycolumn,yytext()); }
+<YYINITIAL> {wEJEX}                     {   return new Symbol(sym.wEJEX,            yyline, yycolumn,yytext()); }
+<YYINITIAL> {wVALORES}                  {   return new Symbol(sym.wVALORES,         yyline, yycolumn,yytext()); }
+<YYINITIAL> {wTITULOX}                  {   return new Symbol(sym.wTITULOX,         yyline, yycolumn,yytext()); }
+<YYINITIAL> {wTITULOY}                  {   return new Symbol(sym.wTITULOY,         yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_IZQ}                   {   return new Symbol(sym.PAR_IZQ,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_DER}                   {   return new Symbol(sym.PAR_DER,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PTCOMA}                    {   return new Symbol(sym.PTCOMA,           yyline, yycolumn,yytext()); }
@@ -119,7 +134,13 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {AND}                       {   return new Symbol(sym.AND,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {OR}                        {   return new Symbol(sym.OR,               yyline, yycolumn,yytext()); }
 <YYINITIAL> {NOT}                       {   return new Symbol(sym.NOT,              yyline, yycolumn,yytext()); }
+<YYINITIAL> {COMA}                      {   return new Symbol(sym.COMA,             yyline, yycolumn,yytext()); }
+<YYINITIAL> {PT}                        {   return new Symbol(sym.PT,               yyline, yycolumn,yytext()); }
+<YYINITIAL> {DOLLAR}                    {   return new Symbol(sym.DOLLAR,           yyline, yycolumn,yytext()); }
+<YYINITIAL> {CORI}                      {   return new Symbol(sym.CORI,             yyline, yycolumn,yytext()); }
+<YYINITIAL> {CORD}                      {   return new Symbol(sym.CORD,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {identificador}             {   return new Symbol(sym.identificador,    yyline, yycolumn,yytext()); }
+
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }
 <YYINITIAL> {ENTER}                     { /*Saltos de linea, ignorados*/      }
 <YYINITIAL> {COMENTARIO_SIMPLE}         { /*Comentario una linea, ignorados*/ }

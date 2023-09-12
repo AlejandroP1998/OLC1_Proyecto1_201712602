@@ -19,15 +19,15 @@ parser code
 :}
 
 //TERMINALES
-terminal String PTCOMA,PAR_IZQ,PAR_DER,COMS,COMD,DOSPT;
-terminal String MAS,MENOS,POR,DIV;
-terminal String ENTERO;
-terminal String DECIMAL;
-terminal String UMENOS;
-terminal String identificador,varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
-terminal String LLI,LLC,wVoid;
-terminal String wMain,wPrint,wIF,wELSE,wSWITCH,wCASE,wBREAK,wFOR,wWHILE,wDO;
-terminal String RELACIONES,IGUAL,AND,OR,NOT;
+terminal String PTCOMA,PAR_IZQ,PAR_DER,COMS,COMD,DOSPT,LLI,LLC,DOLLAR,COMA,CORI,CORD,PT;
+terminal String MAS,MENOS,POR,DIV,UMENOS;
+terminal String ENTERO,DECIMAL;
+terminal String varINT,varDOUBLE,varCHAR,varBOOL,varSTRING;
+terminal String wVoid,wMain,wPrint,wIF,wELSE,wSWITCH,wCASE,wBREAK,wFOR,wWHILE,wDO;
+terminal String wTITULO,wEJEX,wVALORES,wTITULOX,wTITULOY;
+terminal String RELACIONES,IGUAL;
+terminal String AND,OR,NOT;
+terminal String identificador;
 
 //NO_TERMINALES
 non terminal ini;
@@ -50,10 +50,12 @@ non terminal sentenciaCASE;
 non terminal sentenciaFOR;
 non terminal sentenciaWHILE;
 non terminal sentenciaDOWHILE;
-non terminal declaracionFUNCIONES;
 non terminal CONDICIONES;
 non terminal CASE;
 non terminal CADENA;
+non terminal CADENAR;
+non terminal declaracionFUNCIONES;
+non terminal datosFUNCIONES;
 
 //PRECEDENCIA_DE_OPERADORES
 precedence left MAS,MENOS;
@@ -97,6 +99,7 @@ declaracion ::=
     | sentenciaFOR:a                                                            {:RESULT=a;:}
     | sentenciaWHILE:a                                                          {:RESULT=a;:}
     | sentenciaDOWHILE:a                                                        {:RESULT=a;:}
+    | declaracionFUNCIONES                                                      {:RESULT="";:}
 ;
 
 sentenciaIF ::=
@@ -144,10 +147,6 @@ sentenciaDOWHILE::=
                                                                                 {:RESULT="while True:"+a+"\n\t"+b+"="+b+"+1\n\tif("+b+c+d+"):\nbreak";:}
 ;
 
-declaracionFUNCIONES::=
-    wVoid identificador:a PAR_IZQ PAR_DER LLI declaraciones:b LLC {:System.out.println("funcion "+a);:}
-;
-
 declaracionINT ::=
     varINT identificador:a IGUAL expresion:b PTCOMA                             {:RESULT="\n\t"+a+"="+b;:}
     | varINT identificador:a PTCOMA                                             {:RESULT="\n\t"+a;:}
@@ -155,6 +154,8 @@ declaracionINT ::=
 
 declaracionDOUBLE ::=
     varDOUBLE identificador:a IGUAL expresion:b PTCOMA                          {:RESULT="\n\t"+a+"="+b;:}
+    | varDOUBLE identificador:a IGUAL datosFUNCIONES:b PTCOMA                   {:RESULT="\n\t"+a+"="+b;:}
+    | varDOUBLE CORI CORD identificador:a IGUAL datosFUNCIONES:b PTCOMA         {:RESULT="\n\t"+a+"="+b;:}
     | varDOUBLE identificador:a PTCOMA                                          {:RESULT="\n\t"+a;:}
 ;
 
@@ -175,16 +176,20 @@ declaracionBOOL ::=
 
 declaracionSTRING ::=
     varSTRING identificador:a IGUAL COMS CADENA:b COMS PTCOMA                   {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
+    | varSTRING identificador:a IGUAL datosFUNCIONES:b PTCOMA                   {:RESULT="\n\t"+a+"="+"\'"+b+"\'";:}
     | varSTRING identificador:a IGUAL COMD CADENA:b COMD PTCOMA                 {:RESULT="\n\t"+a+"="+"\""+b+"\"";:} 
-    | varSTRING identificador:a PTCOMA {:RESULT=a;:}
+    | varSTRING CORI CORD identificador:a IGUAL LLI CADENAR:b LLC PTCOMA        {:RESULT="\n\t"+a+"="+"\""+b+"\"";:} 
+    | varSTRING identificador:a PTCOMA                                          {:RESULT=a;:}
 ;
 
 declaracionPRINT ::=
-    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA                                   {: RESULT="\n\t"+"print("+a+")"; :}
-    | wPrint PAR_IZQ COMS CADENA:a COMS MAS identificador:b PAR_DER PTCOMA      {: RESULT="\n\t"+"print("+"\'"+a+"\'"+","+b+")"; :}
-    | wPrint PAR_IZQ COMS CADENA:a COMS PAR_DER PTCOMA                          {: RESULT="\n\t"+"print("+"\'"+a+"\')"; :}
-    | wPrint PAR_IZQ COMD CADENA:a COMD MAS identificador:b PAR_DER PTCOMA      {: RESULT="\n\t"+"print("+"\""+a+"\""+","+b+")"; :}
-    | wPrint PAR_IZQ COMD CADENA:a COMD PAR_DER PTCOMA                          {: RESULT="\n\t"+"print("+"\""+a+"\")"; :}
+    wPrint PAR_IZQ expresion:a PAR_DER PTCOMA                                       {: RESULT="\n\t"+"print("+a+")"; :}
+    | wPrint PAR_IZQ COMS CADENA:a COMS MAS identificador:b PAR_DER PTCOMA          {: RESULT="\n\t"+"print("+"\'"+a+"\'"+","+b+")"; :}
+    | wPrint PAR_IZQ COMS CADENA:a DOSPT COMS MAS identificador:b PAR_DER PTCOMA    {: RESULT="\n\t"+"print("+"\'"+a+"\'"+","+b+")"; :}
+    | wPrint PAR_IZQ COMS CADENA:a COMS PAR_DER PTCOMA                              {: RESULT="\n\t"+"print("+"\'"+a+"\')"; :}
+    | wPrint PAR_IZQ COMD CADENA:a COMD MAS identificador:b PAR_DER PTCOMA          {: RESULT="\n\t"+"print("+"\""+a+"\""+","+b+")"; :}
+    | wPrint PAR_IZQ COMD CADENA:a DOSPT COMD MAS identificador:b PAR_DER PTCOMA    {: RESULT="\n\t"+"print("+"\""+a+"\""+","+b+")"; :}
+    | wPrint PAR_IZQ COMD CADENA:a COMD PAR_DER PTCOMA                              {: RESULT="\n\t"+"print("+"\""+a+"\")"; :}
 ;
 
 expresion  ::= 
@@ -201,9 +206,21 @@ expresion  ::=
 CADENA ::=
     identificador:a                                                             {:RESULT=a;:}
     | ENTERO:a                                                                  {:RESULT=a;:}
-    | identificador:a CADENA:b                                                  {:RESULT=a+" "+b;:}
     | ENTERO:a CADENA:b                                                         {:RESULT=a+" "+b;:}
+    | identificador:a CADENA:b                                                  {:RESULT=a+" "+b;:}
+    | identificador:a PT CADENA:b                                               {:RESULT=a+"."+b;:}
 ;
+
+CADENAR ::=
+    COMD CADENA:a COMD                                                          {:RESULT=a;:}
+    | COMS CADENA:a COMS                                                        {:RESULT=a;:}
+    | CADENA:a                                                                  {:RESULT=a;:}
+    | COMD CADENA:a COMD COMA CADENA:b                                          {:RESULT=a+String.valueOf(b);:}
+    | COMS CADENA:a COMS COMA CADENA:b                                          {:RESULT=a+String.valueOf(b);:}
+    | CADENA:a COMA CADENA:b                                                    {:RESULT=a+String.valueOf(b);:}
+;
+
+
 
 CONDICIONES ::=
     identificador:a RELACIONES:b CADENA:c                                       {:RESULT=a+" "+b+" "+c;:}
@@ -213,4 +230,17 @@ CONDICIONES ::=
     | NOT identificador:a RELACIONES:b CADENA:c                                 {:RESULT="not "+a+" "+b+" "+c;:}
     | NOT identificador:a RELACIONES:b identificador:c CONDICIONES:d            {:RESULT="not "+a+" "+b+" "+c+" "+d;:}
     | NOT identificador:a RELACIONES:b ENTERO:c CONDICIONES:d                   {:RESULT="not "+a+" "+b+" "+c+" "+d;:}
+;
+
+
+//elementos-especificos-para-la-declaracion-de-funciones-------------------------------------------------------------------------------------------------------------------------
+
+
+declaracionFUNCIONES::=
+    wVoid identificador:a PAR_IZQ PAR_DER LLI declaraciones:b LLC {:System.out.println("funcion "+a+"\n"+b);:}
+;
+
+datosFUNCIONES::=
+    DOLLAR LLI CADENA:a COMA COMD CADENA:b COMD COMA COMD CADENA:c COMD LLC     {:RESULT="Obtencion de simbolos -> NewValor: "+a+" - NombreArchivo: "+b+" - NombreSimbolo"+c;:}
+    | DOLLAR LLI CADENA:a COMA COMS CADENA:b COMS COMA COMD CADENA:c COMD LLC   {:RESULT="Obtencion de simbolos -> NewValor: "+a+" - NombreArchivo: "+b+" - NombreSimbolo"+c;:}
 ;

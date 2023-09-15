@@ -17,7 +17,6 @@ public class GeneradorStatPy {
             String opcCUP[] = {"-destdir", ruta, "-parser", "parser", ruta + "parserStatPy.cup"};
             java_cup.Main.main(opcCUP);
         } catch (Exception e) {
-            e.printStackTrace();
         }
     }
 }

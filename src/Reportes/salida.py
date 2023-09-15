@@ -18,6 +18,8 @@ def main():
 	print("a y b son iguales")
 	
 	
+	
+	
 	while a < 10:
 
 	print("el valor de a es",a)

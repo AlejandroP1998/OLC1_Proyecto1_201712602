@@ -12,21 +12,22 @@ public class sym {
   public static final int wBREAK = 34;
   public static final int PAR_DER = 4;
   public static final int wPrint = 29;
+  public static final int wDefGlob = 39;
   public static final int POR = 17;
   public static final int wFOR = 35;
-  public static final int RELACIONES = 43;
+  public static final int RELACIONES = 47;
   public static final int ENTERO = 20;
   public static final int wELSE = 31;
   public static final int wWHILE = 36;
   public static final int wDO = 37;
   public static final int DOSPT = 7;
-  public static final int identificador = 48;
+  public static final int identificador = 52;
   public static final int varCHAR = 24;
-  public static final int NOT = 47;
-  public static final int AND = 45;
-  public static final int IGUAL = 44;
+  public static final int NOT = 51;
+  public static final int AND = 49;
+  public static final int IGUAL = 48;
   public static final int varDOUBLE = 23;
-  public static final int OR = 46;
+  public static final int OR = 50;
   public static final int varINT = 22;
   public static final int COMS = 5;
   public static final int wMain = 28;
@@ -40,21 +41,24 @@ public class sym {
   public static final int COMA = 11;
   public static final int wVoid = 27;
   public static final int MENOS = 16;
-  public static final int wTITULOY = 42;
-  public static final int wTITULOX = 41;
+  public static final int wTITULOY = 46;
+  public static final int wTITULOX = 45;
   public static final int wCASE = 33;
   public static final int PAR_IZQ = 3;
   public static final int LLI = 8;
   public static final int wIF = 30;
-  public static final int wTITULO = 38;
+  public static final int wTITULO = 42;
   public static final int LLC = 9;
-  public static final int wEJEX = 39;
+  public static final int wEJEX = 43;
   public static final int DOLLAR = 10;
-  public static final int wVALORES = 40;
+  public static final int wGraphP = 41;
+  public static final int wVALORES = 44;
+  public static final int wNewValor = 38;
   public static final int CORI = 12;
   public static final int PTCOMA = 2;
   public static final int CORD = 13;
   public static final int wSWITCH = 32;
+  public static final int wGraphB = 40;
   public static final int MAS = 15;
   public static final int varSTRING = 26;
   public static final String[] terminalNames = new String[] {
@@ -96,6 +100,10 @@ public class sym {
   "wFOR",
   "wWHILE",
   "wDO",
+  "wNewValor",
+  "wDefGlob",
+  "wGraphB",
+  "wGraphP",
   "wTITULO",
   "wEJEX",
   "wVALORES",

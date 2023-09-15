@@ -19,7 +19,7 @@ parser code
 :}
 
 //TERMINALES
-terminal String DOSPT,COMD,LLI,LLC,COMA,SIMBOLOS;
+terminal String DOSPT,COMD,LLI,LLC,COMA;
 terminal String DECIMAL, identificador;
 
 //NO_TERMINALES
@@ -39,18 +39,18 @@ instrucciones ::= instruccion instrucciones
 ; 
 
 instruccion ::= 
-    LLI declaraciones:a LLC                                                     {:cf.leerJSON("{"+a+"\n}");:}
+    LLI declaraciones:a LLC                                                     {:cf.escribirJSON((String) a);:}
 ;
 
-declaraciones ::= declaracion:a declaraciones:b                                 {:RESULT="\n\t"+String.valueOf(a) +"\n\t"+ String.valueOf(b);:}
- | declaracion:a                                                                {:RESULT="\n\t"+String.valueOf(a);:}
+declaraciones ::= declaracion:a declaraciones:b                                 {:RESULT=String.valueOf(a) +"\n"+ String.valueOf(b);:}
+ | declaracion:a                                                                {:RESULT=String.valueOf(a);:}
 ;
 
 declaracion ::=
-  COMD CADENA:a COMD DOSPT DECIMAL:b                                            {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: double";:}
-  | COMD CADENA:a COMD DOSPT DECIMAL:b COMA declaracion:c                       {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: double"+c;:}
-  | COMD CADENA:a COMD DOSPT COMD CADENA:b COMD                                 {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: string";:}
-  | COMD CADENA:a COMD DOSPT COMD CADENA:b COMD COMA declaracion:c              {:RESULT="\n\tatributo: "+a+" valor: "+b+" tipo: string"+c;:}
+  COMD CADENA:a COMD DOSPT DECIMAL:b                                            {:RESULT=a+":"+b;:}
+  | COMD CADENA:a COMD DOSPT COMD CADENA:b COMD                                 {:RESULT=a+":"+b;:}
+  | COMD CADENA:a COMD DOSPT DECIMAL:b COMA                                     {:RESULT=a+":"+b;:}
+  | COMD CADENA:a COMD DOSPT COMD CADENA:b COMD COMA                            {:RESULT=a+":"+b;:}
 ;
 
 CADENA ::=

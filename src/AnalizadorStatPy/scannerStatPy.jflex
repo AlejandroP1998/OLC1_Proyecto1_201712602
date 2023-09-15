@@ -78,8 +78,11 @@ wEJEX       = "EjeX"
 wVALORES    = "Valores"
 wTITULOX    = "TituloX"
 wTITULOY    = "TituloY"
-RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE}|{wFOR}|{wWHILE}|{wDO}|{wTITULO}|{wEJEX}|{wVALORES}|{wTITULOX}|{wTITULOY})
-
+wDefGlob    = "DefinirGlobales"
+wGraphB     = "GraficaBarras"
+wGraphP     = "GraficaPie"
+wNewValor   = "NewValor"
+RESERVADAS  = ({varINT}|{varDOUBLE}|{varCHAR}|{varBOOL}|{varSTRING}|{wVoid}|{wMain}|{wPrint}|{wSWITCH}|{wCASE}|{wBREAK}|{wIF}|{wELSE}|{wFOR}|{wWHILE}|{wDO}|{wTITULO}|{wEJEX}|{wVALORES}|{wTITULOX}|{wTITULOY}|{wDefGlob}|{wGraphB}|{wGraphP}|{wNewValor})
 //expresiones
 ENTERO  = [0-9]+   
 DECIMAL = [0-9]+("."[  |0-9]+)?
@@ -117,6 +120,10 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{RELACIONES}|{RESERVADAS}|{SIMBOLOS}|
 <YYINITIAL> {wVALORES}                  {   return new Symbol(sym.wVALORES,         yyline, yycolumn,yytext()); }
 <YYINITIAL> {wTITULOX}                  {   return new Symbol(sym.wTITULOX,         yyline, yycolumn,yytext()); }
 <YYINITIAL> {wTITULOY}                  {   return new Symbol(sym.wTITULOY,         yyline, yycolumn,yytext()); }
+<YYINITIAL> {wDefGlob}                  {   return new Symbol(sym.wDefGlob,         yyline, yycolumn,yytext()); }
+<YYINITIAL> {wGraphB}                   {   return new Symbol(sym.wGraphB,          yyline, yycolumn,yytext()); }
+<YYINITIAL> {wGraphP}                   {   return new Symbol(sym.wGraphP,          yyline, yycolumn,yytext()); }
+<YYINITIAL> {wNewValor}                 {   return new Symbol(sym.wNewValor,        yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_IZQ}                   {   return new Symbol(sym.PAR_IZQ,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PAR_DER}                   {   return new Symbol(sym.PAR_DER,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {PTCOMA}                    {   return new Symbol(sym.PTCOMA,           yyline, yycolumn,yytext()); }

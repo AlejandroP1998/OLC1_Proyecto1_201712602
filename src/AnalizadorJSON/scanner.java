@@ -55,11 +55,11 @@ public class scanner implements java_cup.runtime.Scanner {
 
   private static final String ZZ_ACTION_PACKED_0 =
     "\1\0\1\1\1\2\1\3\1\4\1\5\1\6\1\7"+
-    "\1\10\1\11\1\1\3\0\1\6\2\12\7\0\1\12"+
-    "\1\13\1\0\1\12\1\0";
+    "\1\10\1\11\1\12\1\1\3\0\1\7\2\13\7\0"+
+    "\1\13\1\14\1\0\1\13\1\0";
 
   private static int [] zzUnpackAction() {
-    int [] result = new int[29];
+    int [] result = new int[30];
     int offset = 0;
     offset = zzUnpackAction(ZZ_ACTION_PACKED_0, offset, result);
     return result;
@@ -84,13 +84,13 @@ public class scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ROWMAP = zzUnpackRowMap();
 
   private static final String ZZ_ROWMAP_PACKED_0 =
-    "\0\0\0\20\0\20\0\20\0\20\0\20\0\40\0\20"+
-    "\0\20\0\60\0\100\0\120\0\140\0\160\0\120\0\200"+
-    "\0\220\0\240\0\260\0\300\0\320\0\340\0\360\0\u0100"+
-    "\0\u0110\0\u0120\0\u0130\0\u0140\0\u0150";
+    "\0\0\0\20\0\20\0\20\0\20\0\20\0\20\0\40"+
+    "\0\20\0\20\0\60\0\100\0\120\0\140\0\160\0\120"+
+    "\0\200\0\220\0\240\0\260\0\300\0\320\0\340\0\360"+
+    "\0\u0100\0\u0110\0\u0120\0\u0130\0\u0140\0\u0150";
 
   private static int [] zzUnpackRowMap() {
-    int [] result = new int[29];
+    int [] result = new int[30];
     int offset = 0;
     offset = zzUnpackRowMap(ZZ_ROWMAP_PACKED_0, offset, result);
     return result;
@@ -113,23 +113,23 @@ public class scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_TRANS = zzUnpackTrans();
 
   private static final String ZZ_TRANS_PACKED_0 =
-    "\1\2\1\3\1\4\1\5\1\6\1\2\1\7\2\2"+
-    "\2\10\1\11\1\12\1\13\1\2\27\0\1\7\1\14"+
-    "\4\0\1\12\11\0\1\12\5\0\1\12\20\0\1\15"+
-    "\1\16\7\0\1\17\1\0\1\17\1\0\1\17\6\0"+
-    "\5\20\1\21\2\0\2\20\1\0\1\20\1\22\3\0"+
-    "\5\23\1\24\2\0\4\23\1\25\3\0\5\20\1\21"+
-    "\2\0\2\20\1\0\1\20\4\0\5\20\1\21\1\26"+
-    "\1\0\2\20\1\0\1\20\20\0\1\15\3\0\5\23"+
-    "\1\24\2\0\4\23\1\0\1\27\2\0\5\23\1\24"+
-    "\1\30\1\0\4\23\1\0\1\27\17\0\1\16\7\0"+
-    "\1\31\1\0\1\31\1\0\1\31\22\0\1\32\10\0"+
-    "\1\33\1\0\1\33\1\0\1\33\6\0\5\20\1\34"+
-    "\1\0\1\31\1\20\1\31\1\0\1\20\21\0\1\27"+
-    "\2\0\5\23\1\35\1\0\1\33\1\23\1\33\2\23"+
-    "\1\0\1\27\2\0\5\20\1\34\1\26\1\31\1\20"+
-    "\1\31\1\0\1\20\4\0\5\23\1\35\1\30\1\33"+
-    "\1\23\1\33\2\23\1\0\1\27\1\0";
+    "\1\2\1\3\1\4\1\5\1\6\1\7\1\10\2\2"+
+    "\2\11\1\12\1\13\1\14\1\2\27\0\1\10\1\15"+
+    "\4\0\1\13\11\0\1\13\5\0\1\13\20\0\1\16"+
+    "\1\17\7\0\1\20\1\0\1\20\1\0\1\20\6\0"+
+    "\5\21\1\22\2\0\2\21\1\0\1\21\1\23\3\0"+
+    "\5\24\1\25\2\0\4\24\1\26\3\0\5\21\1\22"+
+    "\2\0\2\21\1\0\1\21\4\0\5\21\1\22\1\27"+
+    "\1\0\2\21\1\0\1\21\20\0\1\16\3\0\5\24"+
+    "\1\25\2\0\4\24\1\0\1\30\2\0\5\24\1\25"+
+    "\1\31\1\0\4\24\1\0\1\30\17\0\1\17\7\0"+
+    "\1\32\1\0\1\32\1\0\1\32\22\0\1\33\10\0"+
+    "\1\34\1\0\1\34\1\0\1\34\6\0\5\21\1\35"+
+    "\1\0\1\32\1\21\1\32\1\0\1\21\21\0\1\30"+
+    "\2\0\5\24\1\36\1\0\1\34\1\24\1\34\2\24"+
+    "\1\0\1\30\2\0\5\21\1\35\1\27\1\32\1\21"+
+    "\1\32\1\0\1\21\4\0\5\24\1\36\1\31\1\34"+
+    "\1\24\1\34\2\24\1\0\1\30\1\0";
 
   private static int [] zzUnpackTrans() {
     int [] result = new int[352];
@@ -170,11 +170,11 @@ public class scanner implements java_cup.runtime.Scanner {
   private static final int [] ZZ_ATTRIBUTE = zzUnpackAttribute();
 
   private static final String ZZ_ATTRIBUTE_PACKED_0 =
-    "\1\0\5\11\1\1\2\11\2\1\3\0\3\1\7\0"+
+    "\1\0\6\11\1\1\2\11\2\1\3\0\3\1\7\0"+
     "\2\1\1\0\1\1\1\0";
 
   private static int [] zzUnpackAttribute() {
-    int [] result = new int[29];
+    int [] result = new int[30];
     int offset = 0;
     offset = zzUnpackAttribute(ZZ_ATTRIBUTE_PACKED_0, offset, result);
     return result;
@@ -639,57 +639,62 @@ public class scanner implements java_cup.runtime.Scanner {
         System.out.println(errLex);
             } 
             // fall through
-          case 12: break;
+          case 13: break;
           case 2: 
             { return new Symbol(sym.DOSPT,            yyline, yycolumn,yytext());
             } 
             // fall through
-          case 13: break;
+          case 14: break;
           case 3: 
             { return new Symbol(sym.COMD,             yyline, yycolumn,yytext());
             } 
             // fall through
-          case 14: break;
+          case 15: break;
           case 4: 
             { return new Symbol(sym.LLI,              yyline, yycolumn,yytext());
             } 
             // fall through
-          case 15: break;
+          case 16: break;
           case 5: 
             { return new Symbol(sym.LLC,              yyline, yycolumn,yytext());
             } 
             // fall through
-          case 16: break;
-          case 6: 
-            { return new Symbol(sym.DECIMAL,          yyline, yycolumn,yytext());
-            } 
-            // fall through
           case 17: break;
-          case 7: 
-            { /*Espacios en blanco, ignorados*/
+          case 6: 
+            { return new Symbol(sym.COMA,             yyline, yycolumn,yytext());
             } 
             // fall through
           case 18: break;
-          case 8: 
-            { /*Saltos de linea, ignorados*/
+          case 7: 
+            { return new Symbol(sym.DECIMAL,          yyline, yycolumn,yytext());
             } 
             // fall through
           case 19: break;
-          case 9: 
-            { return new Symbol(sym.identificador,    yyline, yycolumn,yytext());
+          case 8: 
+            { /*Espacios en blanco, ignorados*/
             } 
             // fall through
           case 20: break;
-          case 10: 
-            { /*Comentario una linea, ignorados*/
+          case 9: 
+            { /*Saltos de linea, ignorados*/
             } 
             // fall through
           case 21: break;
-          case 11: 
-            { /*Comentario multilinea, ignorados*/
+          case 10: 
+            { return new Symbol(sym.identificador,    yyline, yycolumn,yytext());
             } 
             // fall through
           case 22: break;
+          case 11: 
+            { /*Comentario una linea, ignorados*/
+            } 
+            // fall through
+          case 23: break;
+          case 12: 
+            { /*Comentario multilinea, ignorados*/
+            } 
+            // fall through
+          case 24: break;
           default:
             zzScanError(ZZ_NO_MATCH);
         }

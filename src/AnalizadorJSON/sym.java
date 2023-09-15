@@ -9,14 +9,13 @@ package AnalizadorJSON;
 public class sym {
   /* terminals */
   public static final int DOSPT = 2;
-  public static final int DECIMAL = 8;
+  public static final int DECIMAL = 7;
   public static final int COMA = 6;
   public static final int LLC = 5;
-  public static final int SIMBOLOS = 7;
   public static final int EOF = 0;
   public static final int error = 1;
   public static final int LLI = 4;
-  public static final int identificador = 9;
+  public static final int identificador = 8;
   public static final int COMD = 3;
   public static final String[] terminalNames = new String[] {
   "EOF",
@@ -26,7 +25,6 @@ public class sym {
   "LLI",
   "LLC",
   "COMA",
-  "SIMBOLOS",
   "DECIMAL",
   "identificador"
   };

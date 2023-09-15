@@ -44,6 +44,7 @@ COMENTARIO_EXTENSO  = "/*"+ ({EXPRESIONES}|{SIMBOLOS}|{ENTER}|{identificador})+ 
 <YYINITIAL> {LLC}                       {   return new Symbol(sym.LLC,              yyline, yycolumn,yytext()); }
 <YYINITIAL> {DECIMAL}                   {   return new Symbol(sym.DECIMAL,          yyline, yycolumn,yytext()); }
 <YYINITIAL> {COMD}                      {   return new Symbol(sym.COMD,             yyline, yycolumn,yytext()); }
+<YYINITIAL> {COMA}                      {   return new Symbol(sym.COMA,             yyline, yycolumn,yytext()); }
 <YYINITIAL> {DOSPT}                     {   return new Symbol(sym.DOSPT,            yyline, yycolumn,yytext()); }
 <YYINITIAL> {identificador}             {   return new Symbol(sym.identificador,    yyline, yycolumn,yytext()); }
 <YYINITIAL> {SPACE}                     { /*Espacios en blanco, ignorados*/   }

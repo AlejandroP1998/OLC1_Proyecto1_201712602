@@ -4,6 +4,8 @@ import statpyconverter.Config;
 import statpyconverter.Variable;
 import statpyconverter.Token;
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 
 //PARSER 
 parser code
@@ -40,6 +42,19 @@ parser code
         Token tk = new Token(lexema,token,linea,columna);
         toks.add(tk);
         //System.out.println("lexema:"+lexema+" token:"+token+" linea:"+linea+" columna:"+columna);
+    }
+
+    public void htmlTokens(ArrayList<Token> tk){
+        try {
+            try (FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\tokens.html")) {
+                for(int i = 0; i<tk.size();i++){
+                fileWriter.write("<p>Token: "+tk.get(i).getToken()+ " Lexema:"+tk.get(i).getLexema()+
+                " Linea:"+tk.get(i).getLinea()+" Columna:"+tk.get(i).getColumna()+"</p><br>");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
     }
     
     public void syntax_error(Symbol s){
@@ -124,8 +139,8 @@ start with ini;
 ini::=instrucciones
 ;
 
-instrucciones ::= instruccion:a instrucciones                                   {:cf.Escribir(String.valueOf(a));:}
- | instruccion:a                                                                {:cf.Escribir(String.valueOf(a));:}
+instrucciones ::= instruccion:a instrucciones                                   {:cf.Escribir(String.valueOf(a));htmlTokens(toks);:}
+ | instruccion:a                                                                {:cf.Escribir(String.valueOf(a));htmlTokens(toks);:}
 ; 
 
 instruccion ::= 

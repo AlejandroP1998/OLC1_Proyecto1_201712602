@@ -10,6 +10,8 @@ import statpyconverter.Config;
 import statpyconverter.Variable;
 import statpyconverter.Token;
 import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
 import java_cup.runtime.XMLElement;
 
 /** CUP v0.11b 20160615 (GIT 4ac7450) generated parser.
@@ -666,6 +668,19 @@ public class parser extends java_cup.runtime.lr_parser {
         toks.add(tk);
         //System.out.println("lexema:"+lexema+" token:"+token+" linea:"+linea+" columna:"+columna);
     }
+
+    public void htmlTokens(ArrayList<Token> tk){
+        try {
+            try (FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\tokens.html")) {
+                for(int i = 0; i<tk.size();i++){
+                fileWriter.write("<p>Token: "+tk.get(i).getToken()+ " Lexema:"+tk.get(i).getLexema()+
+                " Linea:"+tk.get(i).getLinea()+" Columna:"+tk.get(i).getColumna()+"</p><br>");
+                }
+            }
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
     
     public void syntax_error(Symbol s){
         System.out.println("Error R de sintaxis: "+ s.value +" Linea "+(s.left+1)+" columna "+(s.right+1) );
@@ -731,7 +746,7 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)).right;
 		Object a = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.elementAt(CUP$parser$top-1)).value;
-		cf.Escribir(String.valueOf(a));
+		cf.Escribir(String.valueOf(a));htmlTokens(toks);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("instrucciones",1, ((java_cup.runtime.Symbol)CUP$parser$stack.elementAt(CUP$parser$top-1)), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;
@@ -743,7 +758,7 @@ class CUP$parser$actions {
 		int aleft = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).left;
 		int aright = ((java_cup.runtime.Symbol)CUP$parser$stack.peek()).right;
 		Object a = (Object)((java_cup.runtime.Symbol) CUP$parser$stack.peek()).value;
-		cf.Escribir(String.valueOf(a));
+		cf.Escribir(String.valueOf(a));htmlTokens(toks);
               CUP$parser$result = parser.getSymbolFactory().newSymbol("instrucciones",1, ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), ((java_cup.runtime.Symbol)CUP$parser$stack.peek()), RESULT);
             }
           return CUP$parser$result;

@@ -11,6 +11,7 @@ import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
 import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
+import org.jfree.data.general.DefaultPieDataset;
 
 public class Config {
 
@@ -79,8 +80,21 @@ public class Config {
         JFreeChart barChart;
         barChart = ChartFactory.createBarChart(titulo, tituloX, tituloY, dataset);
         try {
-            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\graficoBarras" + (int) (Math.random()) + ".png");
+            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\graficoBarras" + titulo + ".png");
             ChartUtilities.saveChartAsPNG(file, barChart, 1800, 600);
+        } catch (IOException e) {
+        }
+    }
+    
+    public void graficoPie(String titulo,String[] valores, String[]categorias){
+        DefaultPieDataset dataset = new DefaultPieDataset();
+        for(int i = 0; i<valores.length;i++){
+            dataset.setValue(categorias[i], Double.parseDouble(valores[i]));
+        }
+        JFreeChart pieChart = ChartFactory.createPieChart(titulo, dataset);
+        try {
+            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\graficoPie-" +  titulo + ".png");
+            ChartUtilities.saveChartAsPNG(file, pieChart, 1800, 600);
         } catch (IOException e) {
         }
     }

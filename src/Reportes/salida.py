@@ -20,6 +20,10 @@ def main():
 	
 	
 	
+	
+	
+	
+	
 	while a < 10:
 
 	print("el valor de a es",a)

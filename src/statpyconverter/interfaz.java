@@ -1,5 +1,6 @@
 package statpyconverter;
 
+import java.awt.Desktop;
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
@@ -27,11 +28,13 @@ public class interfaz extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        btnTokens1 = new javax.swing.JButton();
         background = new javax.swing.JPanel();
         navbar = new javax.swing.JPanel();
-        btnReporte = new javax.swing.JButton();
-        comboReportes = new javax.swing.JComboBox<>();
+        btnErrores = new javax.swing.JButton();
         comboArchivo = new javax.swing.JComboBox<>();
+        btnTokens = new javax.swing.JButton();
+        btnGraficos = new javax.swing.JButton();
         labelAnalizador = new javax.swing.JLabel();
         labelEntrada = new javax.swing.JLabel();
         labelSalida = new javax.swing.JLabel();
@@ -43,6 +46,16 @@ public class interfaz extends javax.swing.JFrame {
         btnLimpiar = new javax.swing.JButton();
         btnEjecutar = new javax.swing.JButton();
         btnAnalizador = new javax.swing.JButton();
+
+        btnTokens1.setBackground(new java.awt.Color(0, 0, 102));
+        btnTokens1.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnTokens1.setForeground(new java.awt.Color(255, 255, 255));
+        btnTokens1.setText("tokens");
+        btnTokens1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTokens1ActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("StatPy Converter");
@@ -56,23 +69,13 @@ public class interfaz extends javax.swing.JFrame {
 
         navbar.setBackground(new java.awt.Color(255, 51, 51));
 
-        btnReporte.setBackground(new java.awt.Color(0, 0, 102));
-        btnReporte.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
-        btnReporte.setForeground(new java.awt.Color(255, 255, 255));
-        btnReporte.setText("ver Reporte");
-        btnReporte.addActionListener(new java.awt.event.ActionListener() {
+        btnErrores.setBackground(new java.awt.Color(0, 0, 102));
+        btnErrores.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnErrores.setForeground(new java.awt.Color(255, 255, 255));
+        btnErrores.setText("Errores");
+        btnErrores.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnReporteActionPerformed(evt);
-            }
-        });
-
-        comboReportes.setBackground(new java.awt.Color(0, 0, 102));
-        comboReportes.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
-        comboReportes.setForeground(new java.awt.Color(255, 255, 255));
-        comboReportes.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Errores lexicos", "Lista de tokens", "Graficos" }));
-        comboReportes.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                comboReportesActionPerformed(evt);
+                btnErroresActionPerformed(evt);
             }
         });
 
@@ -86,6 +89,26 @@ public class interfaz extends javax.swing.JFrame {
             }
         });
 
+        btnTokens.setBackground(new java.awt.Color(0, 0, 102));
+        btnTokens.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnTokens.setForeground(new java.awt.Color(255, 255, 255));
+        btnTokens.setText("tokens");
+        btnTokens.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnTokensActionPerformed(evt);
+            }
+        });
+
+        btnGraficos.setBackground(new java.awt.Color(0, 0, 102));
+        btnGraficos.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnGraficos.setForeground(new java.awt.Color(255, 255, 255));
+        btnGraficos.setText("graficos");
+        btnGraficos.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnGraficosActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout navbarLayout = new javax.swing.GroupLayout(navbar);
         navbar.setLayout(navbarLayout);
         navbarLayout.setHorizontalGroup(
@@ -93,20 +116,23 @@ public class interfaz extends javax.swing.JFrame {
             .addGroup(navbarLayout.createSequentialGroup()
                 .addGap(12, 12, 12)
                 .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 369, Short.MAX_VALUE)
-                .addComponent(comboReportes, javax.swing.GroupLayout.PREFERRED_SIZE, 436, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(btnReporte, javax.swing.GroupLayout.PREFERRED_SIZE, 210, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(17, 17, 17))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 370, Short.MAX_VALUE)
+                .addComponent(btnErrores, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnTokens, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(38, 38, 38)
+                .addComponent(btnGraficos, javax.swing.GroupLayout.PREFERRED_SIZE, 190, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(22, 22, 22))
         );
         navbarLayout.setVerticalGroup(
             navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(navbarLayout.createSequentialGroup()
-                .addGap(18, 18, 18)
+                .addGap(12, 12, 12)
                 .addGroup(navbarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnReporte, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(comboReportes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnErrores, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(comboArchivo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnTokens, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(btnGraficos, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
@@ -135,7 +161,7 @@ public class interfaz extends javax.swing.JFrame {
         textAreaEntrada.setCaretColor(new java.awt.Color(0, 255, 0));
         jScrollPane1.setViewportView(textAreaEntrada);
 
-        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 710, 360));
+        background.add(jScrollPane1, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 140, 710, 410));
 
         textAreaSalida.setBackground(new java.awt.Color(0, 0, 0));
         textAreaSalida.setColumns(20);
@@ -159,10 +185,10 @@ public class interfaz extends javax.swing.JFrame {
                 btnLimpiarActionPerformed(evt);
             }
         });
-        background.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(10, 510, 230, -1));
+        background.add(btnLimpiar, new org.netbeans.lib.awtextra.AbsoluteConstraints(1150, 70, 230, -1));
 
         btnEjecutar.setBackground(new java.awt.Color(0, 102, 0));
-        btnEjecutar.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
+        btnEjecutar.setFont(new java.awt.Font("Algerian", 0, 36)); // NOI18N
         btnEjecutar.setForeground(new java.awt.Color(255, 255, 255));
         btnEjecutar.setText("Ejecutar");
         btnEjecutar.addActionListener(new java.awt.event.ActionListener() {
@@ -170,7 +196,7 @@ public class interfaz extends javax.swing.JFrame {
                 btnEjecutarActionPerformed(evt);
             }
         });
-        background.add(btnEjecutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(270, 510, 450, -1));
+        background.add(btnEjecutar, new org.netbeans.lib.awtextra.AbsoluteConstraints(740, 496, 640, 50));
 
         btnAnalizador.setBackground(new java.awt.Color(102, 0, 102));
         btnAnalizador.setFont(new java.awt.Font("Algerian", 0, 14)); // NOI18N
@@ -236,7 +262,7 @@ public class interfaz extends javax.swing.JFrame {
                     salida = new StringBuilder();
                     // Lee el contenido línea por línea
                     while (scanner.hasNextLine()) {
-                        salida.append(scanner.nextLine()).append(selectedFile.getName()).append("\n");
+                        salida.append(scanner.nextLine()).append(":").append(selectedFile.getName()).append("\n");
                     }
                 }
                 textAreaSalida.setText(salida.toString());
@@ -263,9 +289,24 @@ public class interfaz extends javax.swing.JFrame {
 
     }//GEN-LAST:event_btnEjecutarActionPerformed
 
-    private void btnReporteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnReporteActionPerformed
+    private void btnErroresActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnErroresActionPerformed
+        File archivoHTML = new File("C:\\\\Users\\\\1998j\\\\OneDrive\\\\Desktop\\\\compi1\\\\proyecto1\\\\StatPyConverter\\\\src\\\\Reportes\\\\erroresLexicos.html");
 
-    }//GEN-LAST:event_btnReporteActionPerformed
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (archivoHTML.exists()) {
+                try {
+                    desktop.open(archivoHTML);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El archivo HTML no existe en la ruta especificada.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            System.out.println("La funcionalidad de Desktop no está soportada en este sistema.");
+        }
+    }//GEN-LAST:event_btnErroresActionPerformed
 
     private void comboArchivoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboArchivoActionPerformed
         int option = comboArchivo.getSelectedIndex();
@@ -360,9 +401,47 @@ public class interfaz extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnLimpiarActionPerformed
 
-    private void comboReportesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_comboReportesActionPerformed
+    private void btnTokensActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokensActionPerformed
+        File archivoHTML = new File("C:\\\\Users\\\\1998j\\\\OneDrive\\\\Desktop\\\\compi1\\\\proyecto1\\\\StatPyConverter\\\\src\\\\Reportes\\\\tokens.html");
+
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (archivoHTML.exists()) {
+                try {
+                    desktop.open(archivoHTML);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                JOptionPane.showMessageDialog(null, "El archivo HTML no existe en la ruta especificada.", "Alerta", JOptionPane.WARNING_MESSAGE);
+            }
+        } else {
+            System.out.println("La funcionalidad de Desktop no está soportada en este sistema.");
+        }
+    }//GEN-LAST:event_btnTokensActionPerformed
+
+    private void btnTokens1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnTokens1ActionPerformed
         // TODO add your handling code here:
-    }//GEN-LAST:event_comboReportesActionPerformed
+    }//GEN-LAST:event_btnTokens1ActionPerformed
+
+    private void btnGraficosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGraficosActionPerformed
+        File carpeta = new File("C:\\\\Users\\\\1998j\\\\OneDrive\\\\Desktop\\\\compi1\\\\proyecto1\\\\StatPyConverter\\\\src\\\\Reportes\\\\Graficos");
+
+        if (Desktop.isDesktopSupported()) {
+            Desktop desktop = Desktop.getDesktop();
+            if (carpeta.exists() && carpeta.isDirectory()) {
+                try {
+                    desktop.open(carpeta);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                System.out.println("La carpeta no existe en la ruta especificada.");
+            }
+        } else {
+            System.out.println("La funcionalidad de Desktop no está soportada en este sistema.");
+        }
+    }//GEN-LAST:event_btnGraficosActionPerformed
 
     public static void main(String args[]) {
         SwingUtilities.invokeLater(() -> {
@@ -402,10 +481,12 @@ public class interfaz extends javax.swing.JFrame {
     private javax.swing.JPanel background;
     private javax.swing.JButton btnAnalizador;
     private javax.swing.JButton btnEjecutar;
+    private javax.swing.JButton btnErrores;
+    private javax.swing.JButton btnGraficos;
     private javax.swing.JButton btnLimpiar;
-    private javax.swing.JButton btnReporte;
+    private javax.swing.JButton btnTokens;
+    private javax.swing.JButton btnTokens1;
     private javax.swing.JComboBox<String> comboArchivo;
-    private javax.swing.JComboBox<String> comboReportes;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel labelAnalizador;

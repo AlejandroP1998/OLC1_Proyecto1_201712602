@@ -3,6 +3,11 @@
 package AnalizadorStatPy;
 import java_cup.runtime.Symbol;
 import statpyconverter.Config;
+import statpyconverter.Token;
+import java.util.ArrayList;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 
 /**
@@ -1017,6 +1022,21 @@ public class scanner implements java_cup.runtime.Scanner {
 
   /* user code: */
     Config cf = new Config();
+    ArrayList<Token> err = new ArrayList<>();
+
+
+
+    public void htmlErrors(String er){
+        try {
+            try (FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\erroresLexicos.html")) {
+                fileWriter.write("<p>"+er+"</p><br>");
+            }
+        } catch (IOException e) {
+            System.out.println("Error al escribir en el archivo: " + e.getMessage());
+        }
+    }
+
+
 
 
   /**
@@ -1402,7 +1422,7 @@ public class scanner implements java_cup.runtime.Scanner {
         switch (zzAction < 0 ? zzAction : ZZ_ACTION[zzAction]) {
           case 1: 
             { String errLex = "Error léxico : '"+yytext()+"' en la línea: "+(yyline)+" y columna: "+(yycolumn);
-        System.out.println(errLex);
+        htmlErrors(errLex);
             } 
             // fall through
           case 56: break;

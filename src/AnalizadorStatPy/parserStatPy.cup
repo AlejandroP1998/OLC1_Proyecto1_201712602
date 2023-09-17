@@ -139,12 +139,12 @@ start with ini;
 ini::=instrucciones
 ;
 
-instrucciones ::= instruccion:a instrucciones                                   {:cf.Escribir(String.valueOf(a));htmlTokens(toks);:}
+instrucciones ::= instruccion:a instrucciones:b                                 {:cf.Escribir(String.valueOf(a)+"\n"+String.valueOf(b));htmlTokens(toks);:}
  | instruccion:a                                                                {:cf.Escribir(String.valueOf(a));htmlTokens(toks);:}
 ; 
 
 instruccion ::= 
-    main:a                                                                      {:RESULT=a;:}
+    main:a                                                                      {:RESULT="def main():\n\t"+String.valueOf(a)+"\nif __name__ == \"__main__\":\n\tmain()\n\n";:}
 ;
 
 main ::=

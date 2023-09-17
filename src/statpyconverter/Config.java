@@ -9,7 +9,6 @@ import java.util.ArrayList;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
-import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.data.general.DefaultPieDataset;
 
@@ -22,7 +21,7 @@ public class Config {
     }
 
     public void Escribir(String sentencesString) {
-        salida.append("def main():\n\t").append(sentencesString).append("\nif __name__ == \"__main__\":\n\tmain()\n\n");
+        salida.append(sentencesString);
         escribirSalida();
     }
 
@@ -74,13 +73,13 @@ public class Config {
 
     public void graficaBarras(String titulo, String tituloX, String tituloY, String[] ejex, String[] valores) {
         DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-        for (int i = 0; i < ejex.length; i++) {
+        for (int i = 0; i < valores.length; i++) {
             dataset.addValue(Double.parseDouble(valores[i]), "calificaciones", ejex[i]);
         }
         JFreeChart barChart;
         barChart = ChartFactory.createBarChart(titulo, tituloX, tituloY, dataset);
         try {
-            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\graficoBarras" + titulo + ".png");
+            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\Graficos\\graficoBarras" + titulo + ".png");
             ChartUtilities.saveChartAsPNG(file, barChart, 1800, 600);
         } catch (IOException e) {
         }
@@ -93,7 +92,7 @@ public class Config {
         }
         JFreeChart pieChart = ChartFactory.createPieChart(titulo, dataset);
         try {
-            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\graficoPie-" +  titulo + ".png");
+            File file = new File("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\Graficos\\graficoPie-" +  titulo + ".png");
             ChartUtilities.saveChartAsPNG(file, pieChart, 1800, 600);
         } catch (IOException e) {
         }

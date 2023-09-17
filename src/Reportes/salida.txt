@@ -1,4 +1,0 @@
-Titulo:titulo barras
-variable1:4.09
-Titulo2:titulo pie
-variable2:4.0

@@ -1,8 +1,0 @@
-Titulo:titulo Pie:ejemploJSON.json
-variable1:4.5:ejemploJSON.json
-Titulo2:titulo barras:ejemploJSON.json
-variable2:5.0:ejemploJSON.json
-Titulo:titulo barras:pruebas.json
-variable1:4.09:pruebas.json
-Titulo2:titulo pie:pruebas.json
-variable2:4.0:pruebas.json

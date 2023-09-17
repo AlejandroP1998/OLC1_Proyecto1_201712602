@@ -47,6 +47,7 @@ parser code
     public void htmlTokens(ArrayList<Token> tk){
         try {
             try (FileWriter fileWriter = new FileWriter("C:\\Users\\1998j\\OneDrive\\Desktop\\compi1\\proyecto1\\StatPyConverter\\src\\Reportes\\tokens.html")) {
+                fileWriter.write("<h1>Lista de tokens</h1>");
                 for(int i = 0; i<tk.size();i++){
                 fileWriter.write("<p>Token: "+tk.get(i).getToken()+ " Lexema:"+tk.get(i).getLexema()+
                 " Linea:"+tk.get(i).getLinea()+" Columna:"+tk.get(i).getColumna()+"</p><br>");
